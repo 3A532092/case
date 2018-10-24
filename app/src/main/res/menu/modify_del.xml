@@ -1,0 +1,19 @@
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:id="@+id/action_modify"
+        android:icon="@drawable/ic_action_content_create"
+        android:title="modify"
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_del"
+        android:icon="@drawable/baseline_clear_black_18dp"
+        android:title="del"
+        app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/action_fin"
+        android:icon="@drawable/baseline_done_black_18dp"
+        android:title="done"
+        app:showAsAction="ifRoom" />
+    <!-- Settings, should always be in the overflow -->
+
+</menu>
