@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="category_array">
+        <item>警員</item>
+        <item>巡佐</item>
+        <item>巡官</item>
+        <item>副所長</item>
+        <item>所長</item>
+        <item>警務員</item>
+        <item>警務佐</item>
+        <item>警備隊隊長</item>
+        <item>組長</item>
+        <item>小隊長</item>
+        <item>中隊長</item>
+        <item>分隊長</item>
+        <item>副隊長</item>
+        <item>隊長</item>
+    </array>
+</resources>

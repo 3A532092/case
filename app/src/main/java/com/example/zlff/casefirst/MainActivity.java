@@ -14,9 +14,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import static android.provider.BaseColumns._ID;
 import static com.example.zlff.casefirst.DbConstants.ADDR;
@@ -34,12 +36,13 @@ import static com.example.zlff.casefirst.DbConstants.USERNAME;
 
 public class MainActivity extends AppCompatActivity{
     private DBHelper dbHelper;
-    private EditText editNum,editLic,editCarkind,editLaw,editFact,editRemarks;
+    private EditText editNum,editLic,editCarkind1,editCarkind2,editLaw,editFact,editRemarks;
     private TextView txtdate;
-    private Button btn_tocameraAc,btn_toGPS;
+    private Button btn_tocameraAc,btn_toGPS,btn_carkind;
     private AlertDialog dialog;
     private static final int SET_PHOTOSAVE=1;
     private static final int SET_ADDRESS=2;
+    String[] option={"1 汽車","2 拖車","3 重機","4 輕機","5 機械牌(機械)","6 臨時牌(臨)","7 試車牌(試)","1a 軍車牌(軍)","1b 領事牌(領)", "1c 外交牌(外)","1d 外交牌(使)"};
 
 
     @Override
@@ -48,6 +51,15 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         //home左上方返回鍵
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //顯示spinner
+        Spinner reportspinn=(Spinner)findViewById(R.id.reportnam_spinner);
+        ArrayAdapter<CharSequence> nAdapter = ArrayAdapter.createFromResource(
+                this, R.array.category_array, android.R.layout.simple_spinner_item );
+        nAdapter.setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item);
+       reportspinn.setAdapter(nAdapter);
+
         //洗去Db pic資料
         SharedPreferences pref = getSharedPreferences("00", MODE_PRIVATE);
         pref.edit()
@@ -55,10 +67,19 @@ public class MainActivity extends AppCompatActivity{
                 .putString("address",null)
                 .commit();
 
-
         openDatabase();
         findViews();
         displayTime();
+
+        //btn_carkind對話方塊
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setTitle("選擇車種");
+        builder.setItems(option,listener);
+        builder.setNegativeButton("取消",null);
+        dialog=builder.create();
+
+
+
 
         btn_tocameraAc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,18 +97,31 @@ public class MainActivity extends AppCompatActivity{
 
 
     }
+    DialogInterface.OnClickListener listener=new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialogInterface, int i) {
+            editCarkind1.setText(option[i].split(" ")[0]);
+            editCarkind2.setText(option[i].split(" ")[1]);
+        }
+    };
+
+    public  void btn_carkind(View view){
+        dialog.show();
+    }
 
 
     private void findViews(){
         editNum=(EditText)findViewById(R.id.edt_number);
         editLic=(EditText)findViewById(R.id.edt_Lic);
-        editCarkind=(EditText)findViewById(R.id.edt_carkind2);
+        editCarkind1=(EditText)findViewById(R.id.edt_carkind1);
+        editCarkind2=(EditText)findViewById(R.id.edt_carkind2);
         editLaw=(EditText)findViewById(R.id.edt_law);
         editRemarks=(EditText)findViewById(R.id.edt_remarks);
         editFact=(EditText)findViewById(R.id.edt_fact);
         txtdate=(TextView)findViewById(R.id.txv_date);
         btn_tocameraAc=(Button)findViewById(R.id.btn_camera);
         btn_toGPS=(Button)findViewById(R.id.btn_gps);
+        btn_carkind=(Button)findViewById(R.id.carkind_btn);
     }
 
 
@@ -149,7 +183,7 @@ public class MainActivity extends AppCompatActivity{
 
     private void cleanEditText(){
         editNum.setText("");
-        editCarkind.setText("");
+        editCarkind2.setText("");
         editLic.setText("");
         editLaw.setText("");
         editRemarks.setText("");
@@ -171,7 +205,7 @@ public class MainActivity extends AppCompatActivity{
         ContentValues values=new ContentValues();  //建立 ContentValues 物件並呼叫 put(key,value) 儲存欲新增的資料，key 為欄位名稱  value 為對應值。
         values.put(NUM,editNum.getText().toString());
         values.put(LIC,editLic.getText().toString());
-        values.put(CARKIND,editCarkind.getText().toString());
+        values.put(CARKIND,editCarkind2.getText().toString());
         values.put(LAW,editLaw.getText().toString());
         values.put(REMARKS,editRemarks.getText().toString());
         values.put(FACT,editFact.getText().toString());
