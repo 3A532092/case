@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity{
     private DBHelper dbHelper;
     private EditText editNum,editLic,editCarkind1,editCarkind2,editLaw,editFact,editRemarks;
     private TextView txtdate;
-    private Button btn_tocameraAc,btn_toGPS,btn_carkind;
-    private AlertDialog dialog;
+    private Button btn_tocameraAc,btn_toGPS,btn_carkind,btn_rule;
+    private AlertDialog dialog,dialog_rule;
     private static final int SET_PHOTOSAVE=1;
     private static final int SET_ADDRESS=2;
     String[] option={"1 汽車","2 拖車","3 重機","4 輕機","5 機械牌(機械)","6 臨時牌(臨)","7 試車牌(試)","1a 軍車牌(軍)","1b 領事牌(領)", "1c 外交牌(外)","1d 外交牌(使)"};
@@ -78,6 +78,13 @@ public class MainActivity extends AppCompatActivity{
         builder.setNegativeButton("取消",null);
         dialog=builder.create();
 
+        //btn_rule對話方塊
+        AlertDialog.Builder builder2=new AlertDialog.Builder(this);
+        builder.setTitle("選擇車種");
+        builder.setItems(option,listener);
+        builder.setNegativeButton("取消",null);
+        dialog_rule=builder.create();
+
 
 
 
@@ -109,6 +116,10 @@ public class MainActivity extends AppCompatActivity{
         dialog.show();
     }
 
+    public  void btn_rule(View view){
+        dialog_rule.show();
+    }
+
 
     private void findViews(){
         editNum=(EditText)findViewById(R.id.edt_number);
@@ -122,6 +133,7 @@ public class MainActivity extends AppCompatActivity{
         btn_tocameraAc=(Button)findViewById(R.id.btn_camera);
         btn_toGPS=(Button)findViewById(R.id.btn_gps);
         btn_carkind=(Button)findViewById(R.id.carkind_btn);
+        btn_rule=(Button)findViewById(R.id.rule_btn);
     }
 
 
