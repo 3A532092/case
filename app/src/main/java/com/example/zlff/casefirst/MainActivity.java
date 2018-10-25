@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity{
     private static final int SET_PHOTOSAVE=1;
     private static final int SET_ADDRESS=2;
     String[] option={"1 汽車","2 拖車","3 重機","4 輕機","5 機械牌(機械)","6 臨時牌(臨)","7 試車牌(試)","1a 軍車牌(軍)","1b 領事牌(領)", "1c 外交牌(外)","1d 外交牌(使)"};
-
+    String[] rules = getResources().getStringArray(R.array.rule_array);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +80,10 @@ public class MainActivity extends AppCompatActivity{
 
         //btn_rule對話方塊
         AlertDialog.Builder builder2=new AlertDialog.Builder(this);
-        builder.setTitle("選擇車種");
-        builder.setItems(option,listener);
-        builder.setNegativeButton("取消",null);
-        dialog_rule=builder.create();
+        builder2.setTitle("選擇法條");
+        builder2.setItems(R.array.rule_array,listener_rule);
+        builder2.setNegativeButton("取消",null);
+        dialog_rule=builder2.create();
 
 
 
@@ -109,6 +109,15 @@ public class MainActivity extends AppCompatActivity{
         public void onClick(DialogInterface dialogInterface, int i) {
             editCarkind1.setText(option[i].split(" ")[0]);
             editCarkind2.setText(option[i].split(" ")[1]);
+        }
+    };
+
+    DialogInterface.OnClickListener listener_rule=new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialogInterface, int i) {
+
+            editLaw.setText(rules[i].split(" ")[0]);
+            editFact.setText(rules[i].split(" ")[1]);
         }
     };
 
