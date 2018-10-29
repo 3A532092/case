@@ -24,6 +24,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <activity
             android:name=".MainActivity"
             android:parentActivityName=".Home">
@@ -76,7 +77,8 @@
         <activity
             android:name=".GPSinf_Activity"
             android:parentActivityName=".Record_modify" />
-        <activity android:name=".Displayaddress"></activity>
+        <activity android:name=".Displayaddress" />
+        <activity android:name=".YNuploaded"></activity>
     </application>
 
 </manifest>
