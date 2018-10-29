@@ -21,14 +21,15 @@ import java.util.HashMap;
 import static android.provider.BaseColumns._ID;
 import static com.example.zlff.casefirst.DbConstants.BTNUPLOAD;
 import static com.example.zlff.casefirst.DbConstants.CARKIND;
-import static com.example.zlff.casefirst.DbConstants.FACT;
-import static com.example.zlff.casefirst.DbConstants.LAW;
-import static com.example.zlff.casefirst.DbConstants.LIC;
 import static com.example.zlff.casefirst.DbConstants.DATE;
-import static com.example.zlff.casefirst.DbConstants.NUM;
+import static com.example.zlff.casefirst.DbConstants.PLTNO;
+import static com.example.zlff.casefirst.DbConstants.PNAME;
 import static com.example.zlff.casefirst.DbConstants.REMARKS;
+import static com.example.zlff.casefirst.DbConstants.RULE;
 import static com.example.zlff.casefirst.DbConstants.TABLE_NAME;
+import static com.example.zlff.casefirst.DbConstants.TRUTH;
 import static com.example.zlff.casefirst.DbConstants.USERNAME;
+import static com.example.zlff.casefirst.DbConstants.WHITELIST;
 
 
 public class Savelist extends AppCompatActivity {
@@ -52,8 +53,8 @@ public class Savelist extends AppCompatActivity {
 
     private void showInList() {
         Cursor cursor = getCursor();
-        final String[] from = {NUM, DATE, LIC, CARKIND, LAW, REMARKS, FACT};
-        int[] to = {R.id.txtNum, R.id.txtDate};
+        final String[] from = {PLTNO ,DATE,PNAME,  CARKIND, RULE, WHITELIST,TRUTH};
+        int[] to = {R.id.txtPltno, R.id.txtDate};
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.data_item, cursor, from, to); //SimpleCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to)
         listsave.setAdapter(adapter);
         listsave.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -61,10 +62,10 @@ public class Savelist extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int index, long id) {
                 Intent intent = new Intent();
                 intent.setClass(Savelist.this, Record_modify.class);
-                TextView txvNum = (TextView) view.findViewById(R.id.txtNum);
+                TextView txvPltno = (TextView) view.findViewById(R.id.txtPltno);
                 TextView txvDate = (TextView) view.findViewById(R.id.txtDate);
 
-                intent.putExtra("TONUMBER", txvNum.getText());
+                intent.putExtra("TONUMBER", txvPltno.getText());
                 intent.putExtra("TODATE", txvDate.getText());
 
                 startActivity(intent);
@@ -77,7 +78,7 @@ public class Savelist extends AppCompatActivity {
                 .getString("username", "");
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();  //透過dbHelper取得讀取資料庫的SQLiteDatabase物件，可用在查詢
-        String[] columns = {USERNAME, _ID, NUM, LIC, CARKIND, LAW, REMARKS, FACT, DATE};
+        String[] columns = {USERNAME, _ID, PNAME, PLTNO, CARKIND, RULE, WHITELIST, TRUTH, DATE};
         Cursor cursor = db.query(TABLE_NAME, columns, "USERNAME='" + getusername + "'", null, null, null, null);  //查詢所有欄位的資料
         return cursor;
     }

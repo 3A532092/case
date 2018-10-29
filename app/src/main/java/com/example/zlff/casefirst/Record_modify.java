@@ -37,19 +37,23 @@ import static android.provider.BaseColumns._ID;
 import static com.example.zlff.casefirst.DbConstants.ADDR;
 import static com.example.zlff.casefirst.DbConstants.BTNUPLOAD;
 import static com.example.zlff.casefirst.DbConstants.CARKIND;
-import static com.example.zlff.casefirst.DbConstants.FACT;
-import static com.example.zlff.casefirst.DbConstants.LAW;
-import static com.example.zlff.casefirst.DbConstants.LIC;
+
 import static com.example.zlff.casefirst.DbConstants.DATE;
 import static com.example.zlff.casefirst.DbConstants.NUM;
 import static com.example.zlff.casefirst.DbConstants.PIC;
+import static com.example.zlff.casefirst.DbConstants.PLTNO;
+import static com.example.zlff.casefirst.DbConstants.PNAME;
 import static com.example.zlff.casefirst.DbConstants.REMARKS;
+import static com.example.zlff.casefirst.DbConstants.RULE;
+import static com.example.zlff.casefirst.DbConstants.SPLIMIT;
 import static com.example.zlff.casefirst.DbConstants.TABLE_NAME;
+import static com.example.zlff.casefirst.DbConstants.TRUTH;
 import static com.example.zlff.casefirst.DbConstants.USERNAME;
+import static com.example.zlff.casefirst.DbConstants.WHITELIST;
 
 
 public class Record_modify extends AppCompatActivity implements AsyncResponse,View.OnClickListener{
-    private EditText editNum,editLic,editCarkind,editLaw,editFact,editRemarks,edtaddress;
+    private EditText editPname,editPltno,editCarkind1,editCarkind2,editRule,editTruth,editWhitelist,editSpeed,editSplimit,edtaddress;
     private TextView txtdate;
     private Button btnselcarkind,btnsellaw,btnselmpolice,btnselfact,btnupload,btnphoto;
     private boolean optionMenuOn = false;  //标示是否要显示optionmenu
@@ -75,12 +79,9 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
         findViews();
         displayNum();
         setviewenable();
-        if(Btnupload != null){
-            btnupload.setEnabled(false);
 
-        }
 
-        btnupload.setOnClickListener(this);
+
         requestStoragePermission();
 
         btnphoto.setOnClickListener(new View.OnClickListener() {
@@ -112,18 +113,19 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
     }
 
     private void findViews(){
-        editNum=(EditText)findViewById(R.id.edt_number);
-        editLic=(EditText)findViewById(R.id.edt_Lic);
-        editCarkind=(EditText)findViewById(R.id.edt_carkind2);
-        editLaw=(EditText)findViewById(R.id.edt_law);
-        editRemarks=(EditText)findViewById(R.id.edt_remarks);
-        editFact=(EditText)findViewById(R.id.edt_fact);
+        editPname=(EditText)findViewById(R.id.edt_pname);
+        editPltno=(EditText)findViewById(R.id.edt_pltno);
+        editCarkind1=(EditText)findViewById(R.id.edt_carkind1);
+        editCarkind2=(EditText)findViewById(R.id.edt_carkind2);
+        editRule=(EditText)findViewById(R.id.edt_rule);
+        editWhitelist=(EditText)findViewById(R.id.edt_whitelist);
+        editTruth=(EditText)findViewById(R.id.edt_truth);
+        editSpeed=(EditText)findViewById(R.id.edt_speed);
+        editSplimit=(EditText)findViewById(R.id.edt_splimit);
         txtdate=(TextView)findViewById(R.id.txv_date);
         btnselcarkind=(Button) findViewById(R.id.btn_selcarkind);
-        btnselmpolice=(Button) findViewById(R.id.btn_mpolice);
         btnsellaw=(Button) findViewById(R.id.btn_sellaw);
         btnselfact=(Button) findViewById(R.id.btn_selfact);
-        btnupload=(Button) findViewById(R.id.btn_upload);
         btnphoto=(Button)findViewById(R.id.btn_photo);
         edtaddress=(EditText) findViewById(R.id.edt_address);
 
@@ -135,14 +137,18 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_modify:
-                btnupload.setEnabled(false);
+
                 optionMenuOn = true;
                 checkOptionMenu();
-                editLic.setEnabled(true);
-                editCarkind.setEnabled(true);
-                editLaw.setEnabled(true);
-                editFact.setEnabled(true);
-                editRemarks.setEnabled(true);
+                editPname.setEnabled(true);
+                editPltno.setEnabled(true);
+                editCarkind1.setEnabled(true);
+                editCarkind2.setEnabled(true);
+                editRule.setEnabled(true);
+                editTruth.setEnabled(true);
+                editSplimit.setEnabled(true);
+                editWhitelist.setEnabled(true);
+                editSpeed.setEnabled(true);
                 edtaddress.setEnabled(true);
                 btnselcarkind.setEnabled(true);
                 btnselmpolice.setEnabled(true);
@@ -156,7 +162,7 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
                 optionMenuOn = false;
                 checkOptionMenu();
                 setviewenable();
-                btnupload.setEnabled(true);
+
 
                 return true;
 
@@ -197,15 +203,17 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
 
 
     public void setviewenable(){
-        editNum.setEnabled(false);
-        editLic.setEnabled(false);
-        editCarkind.setEnabled(false);
-        editLaw.setEnabled(false);
-        editFact.setEnabled(false);
-        editRemarks.setEnabled(false);
+        editPname.setEnabled(false);
+        editWhitelist.setEnabled(false);
+        editPltno.setEnabled(false);
+        editCarkind1.setEnabled(false);
+        editCarkind2.setEnabled(false);
+        editRule.setEnabled(false);
+        editTruth.setEnabled(false);
+        editSpeed.setEnabled(false);
+        editSplimit.setEnabled(false);
         edtaddress.setEnabled(false);
         btnselcarkind.setEnabled(false);
-        btnselmpolice.setEnabled(false);
         btnsellaw.setEnabled(false);
         btnselfact.setEnabled(false);
 
@@ -223,7 +231,7 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
                 aMenu.getItem(2).setVisible(true);
                 aMenu.getItem(2).setEnabled(true);
                 }
-                else if(Btnupload != null){
+                /*else if(Btnupload != null){
                 aMenu.getItem(0).setVisible(false);
                 aMenu.getItem(0).setEnabled(false);
                 aMenu.getItem(1).setVisible(true);
@@ -231,7 +239,7 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
                 aMenu.getItem(2).setVisible(false);
                 aMenu.getItem(2).setEnabled(false);
 
-            }
+            }*/
                 else{
                 aMenu.getItem(0).setVisible(true);
                 aMenu.getItem(0).setEnabled(true);
@@ -247,10 +255,10 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
 
     private void delet(){
         SQLiteDatabase dbb = dbHelper.getReadableDatabase();
-        String num=editNum.getText().toString();
+        String date=txtdate.getText().toString();
         Cursor cursor = dbb.rawQuery(
-                "select num,_ID from "+TABLE_NAME+" where num=?",
-                new String[]{num});
+                "select date,_ID from "+TABLE_NAME+" where date=?",
+                new String[]{date});
         while (cursor.moveToNext()) {
             String getid = cursor.getString(1);
             dbb.delete(TABLE_NAME, _ID + "=" +getid, null);
@@ -259,21 +267,23 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
 
     private void update(){
         SQLiteDatabase dbb = dbHelper.getReadableDatabase();
-        String num=editNum.getText().toString();
+        String date=txtdate.getText().toString();
         Cursor cursor = dbb.rawQuery(
-                "select num,_ID from "+TABLE_NAME+" where num=?",
-                new String[]{num});
+                "select date,_ID from "+TABLE_NAME+" where date=?",
+                new String[]{date});
         while (cursor.moveToNext()) {
         String getid = cursor.getString(1);
 
         SQLiteDatabase db=dbHelper.getWritableDatabase();
         ContentValues values=new ContentValues();
-        values.put(NUM,editNum.getText().toString());
-        values.put(LIC,editLic.getText().toString());
-        values.put(CARKIND,editCarkind.getText().toString());
-        values.put(LAW,editLaw.getText().toString());
-        values.put(REMARKS,editRemarks.getText().toString());
-        values.put(FACT,editFact.getText().toString());
+        values.put(PNAME,editPname.getText().toString());
+        values.put(WHITELIST,editWhitelist.getText().toString());
+        values.put(PLTNO,editPltno.getText().toString());
+        values.put(RULE,editRule.getText().toString());
+        values.put(CARKIND,editCarkind1.getText().toString());
+        values.put(TRUTH,editTruth.getText().toString());
+        values.put(SPLIMIT,editSplimit.getText().toString());
+        values.put(SPLIMIT,editSpeed.getText().toString());
         values.put(DATE,txtdate.getText().toString());
         values.put(ADDR,edtaddress.getText().toString());
         db.update(TABLE_NAME,values,_ID+"="+getid,null);
@@ -281,38 +291,45 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
     }
 
     private void displayNum(){
-        String todate,num;
+        String todate,pltno;
         Bundle bundle=this.getIntent().getExtras();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         if(bundle != null){
-            num=bundle.getString("TONUMBER");
+            pltno=bundle.getString("TONUMBER");
             todate=bundle.getString("TODATE");
 
             Cursor cursor = db.rawQuery(
-                    "select num,lic,carkind,law,remarks,fact,pic,addr,btnupload from "+TABLE_NAME+" where num=?",
-                    new String[]{num});
+                    "select pname,whitelist,pltno,carkind,rule,truth,splimit,speed,pic,addr,btnupload from "+TABLE_NAME+" where date=? and pltno=?",
+                    new String[]{todate,pltno});
             while (cursor.moveToNext()) {
 
-                String Lic = cursor.getString(1);
-                String Carkind = cursor.getString(2);
-                String Law = cursor.getString(3);
-                String Remarks = cursor.getString(4);
-                String Fact = cursor.getString(5);
-                pic = cursor.getString(6);
-                String Address = cursor.getString(7);
-                Btnupload = cursor.getString(8);
+                String Pname = cursor.getString(0);
+                String Whitelist = cursor.getString(1);
+                String Pltno = cursor.getString(2);
+                String Carkind = cursor.getString(3);
+                String Rule = cursor.getString(4);
+                String Truth = cursor.getString(5);
+                String Splimit = cursor.getString(6);
+                String Speed = cursor.getString(7);
 
-                editLic.setText(Lic);
-                editCarkind.setText(Carkind);
-                editLaw.setText(Law);
-                editRemarks.setText(Remarks);
-                editFact.setText(Fact);
+                pic = cursor.getString(8);
+                String Address = cursor.getString(9);
+                Btnupload = cursor.getString(10);
+
+                editPname.setText(Pname);
+                editWhitelist.setText(Whitelist);
+                editPltno.setText(Pltno);
+                editCarkind1.setText(Carkind);
+                editRule.setText(Rule);
+                editTruth.setText(Truth);
+                editSplimit.setText(Splimit);
+                editSpeed.setText(Speed);
                 edtaddress.setText(Address);
             }
 
             cursor.close();
 
-            editNum.setText(num);
+            //editNum.setText(num);
             txtdate.setText(todate);
         }
 
@@ -331,7 +348,7 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.btn_upload){
-            if(editNum.getText().toString().matches("") || editLic.getText().toString().matches("")||editCarkind.getText().toString().matches("")|| editLaw.getText().toString().matches("")|| editFact.getText().toString().matches("")){
+            if(editPname.getText().toString().matches("") || editPltno.getText().toString().matches("")||editCarkind1.getText().toString().matches("")|| editRule.getText().toString().matches("")|| editTruth.getText().toString().matches("")){
                 Toast.makeText(this, "請完成資料", Toast.LENGTH_LONG).show();
                 datafinish=1;
             }
@@ -385,7 +402,7 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
 
     @Override
     public void processFinish(String result) {
-            if(result.equals("yes")){
+            /*if(result.equals("yes")){
                 //更新BTNUPLOAD上傳按鈕狀態
                 SQLiteDatabase dbb = dbHelper.getReadableDatabase();
                 String num=editNum.getText().toString();
@@ -414,14 +431,14 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
         }
         else {
                 Toast.makeText(this, "上傳失敗", Toast.LENGTH_LONG).show();
-            }
+            }*/
     }
 
 
 
     public void uploadMultipart() {
         //getting the actual path of the image
-        String newdate=txtdate.getText().toString().replaceAll("(?:年|月)","/");
+       /* String newdate=txtdate.getText().toString().replaceAll("(?:年|月)","/");
         String newday=newdate.replace('日',' ');
         String newtime=newday.replace('時',':');
         String lasttime=newtime.replace('分',' ');
@@ -454,7 +471,7 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
             Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();
 
         }
-
+*/
     }
 
     private void requestStoragePermission() {

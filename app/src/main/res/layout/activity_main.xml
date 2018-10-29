@@ -46,7 +46,7 @@
                 android:visibility="visible" />
 
             <EditText
-                android:id="@+id/edt_number"
+                android:id="@+id/edt_pname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
@@ -67,7 +67,7 @@
                 android:text="白單(選填)" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/edt_whitelist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
@@ -87,7 +87,7 @@
                 android:text="車號" />
 
             <EditText
-                android:id="@+id/edt_Lic"
+                android:id="@+id/edt_pltno"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -143,7 +143,7 @@
                 android:text="違規法條" />
 
             <EditText
-                android:id="@+id/edt_law"
+                android:id="@+id/edt_rule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="50"
@@ -170,7 +170,7 @@
                 android:text="違規事實" />
 
             <EditText
-                android:id="@+id/edt_fact"
+                android:id="@+id/edt_truth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="50"
@@ -191,7 +191,7 @@
                 android:text="速限:" />
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/edt_splimit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -205,7 +205,7 @@
                 android:text="車速:" />
 
             <EditText
-                android:id="@+id/editText3"
+                android:id="@+id/edt_speed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

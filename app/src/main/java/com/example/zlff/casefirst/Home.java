@@ -16,9 +16,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import static com.example.zlff.casefirst.DbConstants.CARKIND;
-import static com.example.zlff.casefirst.DbConstants.FACT;
-import static com.example.zlff.casefirst.DbConstants.LAW;
-import static com.example.zlff.casefirst.DbConstants.LIC;
 import static com.example.zlff.casefirst.DbConstants.DATE;
 import static com.example.zlff.casefirst.DbConstants.NUM;
 import static com.example.zlff.casefirst.DbConstants.REMARKS;

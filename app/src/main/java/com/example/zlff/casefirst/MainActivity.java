@@ -23,27 +23,30 @@ import android.widget.TextView;
 import static android.provider.BaseColumns._ID;
 import static com.example.zlff.casefirst.DbConstants.ADDR;
 import static com.example.zlff.casefirst.DbConstants.CARKIND;
-import static com.example.zlff.casefirst.DbConstants.FACT;
-import static com.example.zlff.casefirst.DbConstants.LAW;
-import static com.example.zlff.casefirst.DbConstants.LIC;
 import static com.example.zlff.casefirst.DbConstants.DATE;
 import static com.example.zlff.casefirst.DbConstants.NUM;
-import static com.example.zlff.casefirst.DbConstants.REMARKS;
+import static com.example.zlff.casefirst.DbConstants.PLTNO;
+import static com.example.zlff.casefirst.DbConstants.PNAME;
+import static com.example.zlff.casefirst.DbConstants.RULE;
+import static com.example.zlff.casefirst.DbConstants.SPEED;
+import static com.example.zlff.casefirst.DbConstants.SPLIMIT;
 import static com.example.zlff.casefirst.DbConstants.TABLE_NAME;
 import static com.example.zlff.casefirst.DbConstants.PIC;
+import static com.example.zlff.casefirst.DbConstants.TRUTH;
 import static com.example.zlff.casefirst.DbConstants.USERNAME;
+import static com.example.zlff.casefirst.DbConstants.WHITELIST;
 
 
 public class MainActivity extends AppCompatActivity{
     private DBHelper dbHelper;
-    private EditText editNum,editLic,editCarkind1,editCarkind2,editLaw,editFact,editRemarks;
+    private EditText editPname,editwhitelist,editPltno,editCarkind1,editCarkind2,editRule,editTruth,editSplimit,editSpeed;
     private TextView txtdate;
     private Button btn_tocameraAc,btn_toGPS,btn_carkind,btn_rule;
-    private AlertDialog dialog,dialog_rule;
+    private AlertDialog dialog,dialog_rule,dialog_carkind;
     private static final int SET_PHOTOSAVE=1;
     private static final int SET_ADDRESS=2;
     String[] option={"1 汽車","2 拖車","3 重機","4 輕機","5 機械牌(機械)","6 臨時牌(臨)","7 試車牌(試)","1a 軍車牌(軍)","1b 領事牌(領)", "1c 外交牌(外)","1d 外交牌(使)"};
-    String[] rules = getResources().getStringArray(R.array.rule_array);
+    String[] rules;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity{
         //home左上方返回鍵
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        rules = getResources().getStringArray(R.array.rule_array);
         //顯示spinner
         Spinner reportspinn=(Spinner)findViewById(R.id.reportnam_spinner);
         ArrayAdapter<CharSequence> nAdapter = ArrayAdapter.createFromResource(
@@ -76,7 +80,7 @@ public class MainActivity extends AppCompatActivity{
         builder.setTitle("選擇車種");
         builder.setItems(option,listener);
         builder.setNegativeButton("取消",null);
-        dialog=builder.create();
+        dialog_carkind=builder.create();
 
         //btn_rule對話方塊
         AlertDialog.Builder builder2=new AlertDialog.Builder(this);
@@ -116,13 +120,13 @@ public class MainActivity extends AppCompatActivity{
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
 
-            editLaw.setText(rules[i].split(" ")[0]);
-            editFact.setText(rules[i].split(" ")[1]);
+            editRule.setText(rules[i].split(" ")[0]);
+            editTruth.setText(rules[i].split(" ")[1]);
         }
     };
 
     public  void btn_carkind(View view){
-        dialog.show();
+        dialog_carkind.show();
     }
 
     public  void btn_rule(View view){
@@ -131,13 +135,15 @@ public class MainActivity extends AppCompatActivity{
 
 
     private void findViews(){
-        editNum=(EditText)findViewById(R.id.edt_number);
-        editLic=(EditText)findViewById(R.id.edt_Lic);
+        editPname=(EditText)findViewById(R.id.edt_pname);
+        editwhitelist=(EditText)findViewById(R.id.edt_whitelist);
+        editPltno=(EditText)findViewById(R.id.edt_pltno);
         editCarkind1=(EditText)findViewById(R.id.edt_carkind1);
         editCarkind2=(EditText)findViewById(R.id.edt_carkind2);
-        editLaw=(EditText)findViewById(R.id.edt_law);
-        editRemarks=(EditText)findViewById(R.id.edt_remarks);
-        editFact=(EditText)findViewById(R.id.edt_fact);
+        editRule=(EditText)findViewById(R.id.edt_rule);
+        editSplimit=(EditText)findViewById(R.id.edt_splimit);
+        editSpeed=(EditText)findViewById(R.id.edt_speed);
+        editTruth=(EditText)findViewById(R.id.edt_truth);
         txtdate=(TextView)findViewById(R.id.txv_date);
         btn_tocameraAc=(Button)findViewById(R.id.btn_camera);
         btn_toGPS=(Button)findViewById(R.id.btn_gps);
@@ -203,12 +209,15 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void cleanEditText(){
-        editNum.setText("");
+        editPname.setText("");
         editCarkind2.setText("");
-        editLic.setText("");
-        editLaw.setText("");
-        editRemarks.setText("");
-        editFact.setText("");
+        editCarkind1.setText("");
+        editwhitelist.setText("");
+        editPltno.setText("");
+        editRule.setText("");
+        editSpeed.setText("");
+        editSplimit.setText("");
+        editTruth.setText("");
     }
     private void SQLadd(){
         //從cameraActivity傳來pic name
@@ -224,12 +233,14 @@ public class MainActivity extends AppCompatActivity{
 
         SQLiteDatabase db=dbHelper.getWritableDatabase();  //透過dbHelper取得讀取資料庫的SQLiteDatabase物件，可用在新增、修改與刪除
         ContentValues values=new ContentValues();  //建立 ContentValues 物件並呼叫 put(key,value) 儲存欲新增的資料，key 為欄位名稱  value 為對應值。
-        values.put(NUM,editNum.getText().toString());
-        values.put(LIC,editLic.getText().toString());
-        values.put(CARKIND,editCarkind2.getText().toString());
-        values.put(LAW,editLaw.getText().toString());
-        values.put(REMARKS,editRemarks.getText().toString());
-        values.put(FACT,editFact.getText().toString());
+        values.put(PNAME,editPname.getText().toString());
+        values.put(PLTNO,editPltno.getText().toString());
+        values.put(WHITELIST,editwhitelist.getText().toString());
+        values.put(CARKIND,editCarkind1.getText().toString());
+        values.put(RULE,editRule.getText().toString());
+        values.put(SPLIMIT,editSplimit.getText().toString());
+        values.put(SPEED,editSpeed.getText().toString());
+        values.put(TRUTH,editTruth.getText().toString());
         values.put(DATE,txtdate.getText().toString());
         values.put(PIC,pic);
         values.put(ADDR,getaddress);
