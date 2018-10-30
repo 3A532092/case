@@ -38,7 +38,7 @@ public class LoginAvtivity extends AppCompatActivity implements AsyncResponse, V
         postData.put("mobile", "android");
         postData.put("txtUsername", edtUsername.getText().toString());
         postData.put("txtPassword", edtPassword.getText().toString() );
-        //startActivity(new Intent(this,Home.class));
+        startActivity(new Intent(this,Home.class));
 
         PostResponseAsyncTask task  = new PostResponseAsyncTask(this,postData);
 

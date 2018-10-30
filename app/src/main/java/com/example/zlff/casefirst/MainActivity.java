@@ -20,8 +20,12 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.util.Calendar;
+
 import static android.provider.BaseColumns._ID;
 import static com.example.zlff.casefirst.DbConstants.ADDR;
+import static com.example.zlff.casefirst.DbConstants.BTNUPLOAD;
 import static com.example.zlff.casefirst.DbConstants.CARKIND;
 import static com.example.zlff.casefirst.DbConstants.DATE;
 import static com.example.zlff.casefirst.DbConstants.NUM;
@@ -40,13 +44,16 @@ import static com.example.zlff.casefirst.DbConstants.WHITELIST;
 public class MainActivity extends AppCompatActivity{
     private DBHelper dbHelper;
     private EditText editPname,editwhitelist,editPltno,editCarkind1,editCarkind2,editRule,editTruth,editSplimit,editSpeed;
-    private TextView txtdate;
+    private TextView txtdate,txv_date;
     private Button btn_tocameraAc,btn_toGPS,btn_carkind,btn_rule;
     private AlertDialog dialog,dialog_rule,dialog_carkind;
     private static final int SET_PHOTOSAVE=1;
     private static final int SET_ADDRESS=2;
     String[] option={"1 汽車","2 拖車","3 重機","4 輕機","5 機械牌(機械)","6 臨時牌(臨)","7 試車牌(試)","1a 軍車牌(軍)","1b 領事牌(領)", "1c 外交牌(外)","1d 外交牌(使)"};
     String[] rules;
+    String year, month, day, hour, minute,sec;
+    String thisDate;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +80,9 @@ public class MainActivity extends AppCompatActivity{
 
         openDatabase();
         findViews();
-        displayTime();
+        txv_date=(TextView) findViewById(R.id.txv_date);
+        txv_date.setText(getdate());
+        //displayTime();
 
         //btn_carkind對話方塊
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
@@ -191,7 +200,11 @@ public class MainActivity extends AppCompatActivity{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         SQLadd();
-                    }
+                        txv_date.setText(getdate());
+
+
+                        }
+
                     });
                 dialog.setButton2("No", new DialogInterface.OnClickListener() {
                     @Override
@@ -245,6 +258,7 @@ public class MainActivity extends AppCompatActivity{
         values.put(PIC,pic);
         values.put(ADDR,getaddress);
         values.put(USERNAME,getusername);
+        values.put(BTNUPLOAD,"n");
 
         db.insert(TABLE_NAME,null,values);
         db.close();
@@ -256,11 +270,45 @@ public class MainActivity extends AppCompatActivity{
         String date;
         Bundle bundle=this.getIntent().getExtras();
         if(bundle != null){
-            date=bundle.getString("Date");
+            //date=bundle.getString("Date");
 
             TextView txv_date=(TextView) findViewById(R.id.txv_date);
-            txv_date.setText(date);
+            txv_date.setText(getdate());
         }
+
+    }
+
+    private String getdate(){
+        Calendar mCal = Calendar.getInstance();
+        minute=Integer.toString(mCal.get(Calendar.MINUTE));
+        year=Integer.toString(mCal.get(Calendar.YEAR));
+        month=Integer.toString(mCal.get(Calendar.MONTH));
+        day=Integer.toString(mCal.get(Calendar.DAY_OF_MONTH));
+        hour=Integer.toString(mCal.get(Calendar.HOUR_OF_DAY));
+        sec=Integer.toString(mCal.get(Calendar.SECOND));
+
+        if(mCal.get(Calendar.MINUTE)<10){
+            minute="0"+Integer.toString(mCal.get(Calendar.MINUTE));
+        }
+        if(mCal.get(Calendar.YEAR)<10){
+            year="0"+Integer.toString(mCal.get(Calendar.YEAR));
+        }
+        if(mCal.get(Calendar.MONTH)<10){
+            month="0"+Integer.toString(mCal.get(Calendar.MONTH));
+        }
+        if(mCal.get(Calendar.DAY_OF_MONTH)<10){
+            day="0"+Integer.toString(mCal.get(Calendar.DAY_OF_MONTH));
+        }
+        if(mCal.get(Calendar.HOUR_OF_DAY)<10){
+            hour="0"+Integer.toString(mCal.get(Calendar.HOUR_OF_DAY));
+        }
+        if(mCal.get(Calendar.SECOND)<10){
+            sec="0"+Integer.toString(mCal.get(Calendar.SECOND));
+        }
+
+            thisDate = year + "年" + month + "月" + day + "日" + hour + "時" + minute + "分"+sec+"秒";
+
+        return thisDate;
 
     }
 

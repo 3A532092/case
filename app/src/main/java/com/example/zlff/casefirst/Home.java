@@ -26,7 +26,7 @@ import java.util.Calendar;
 import static android.provider.BaseColumns._ID;
 
 public class Home extends AppCompatActivity {
-    int year, month, day, hour, minute;
+    int year, month, day, hour, minute,sec;
     String thisDate;
     private TextView result;
     private EditText edtdel;
@@ -41,7 +41,7 @@ public class Home extends AppCompatActivity {
 
     public void btn_record_Click(View view) {
         Intent recordintent=new Intent();
-        recordintent.setClass(this,Savelist.class);
+        recordintent.setClass(this,YNuploaded.class);
         startActivity(recordintent);
     }
 
@@ -55,23 +55,9 @@ public class Home extends AppCompatActivity {
     }
 
         public void btn_writein_Click (View view){
-            Calendar mCal = Calendar.getInstance();
-            year = mCal.get(Calendar.YEAR);
-            month = mCal.get(Calendar.MONTH);
-            day = mCal.get(Calendar.DAY_OF_MONTH);
-            hour = mCal.get(Calendar.HOUR_OF_DAY);
-            minute = mCal.get(Calendar.MINUTE);
-            thisDate = year + "年" + month + "月" + day + "日" + hour + "時" + minute + "分";
-            if (minute < 10) {
-                thisDate = year + "年" + month + "月" + day + "日" + hour + "時" + "0" + minute + "分";
-            } else
-                thisDate = year + "年" + month + "月" + day + "日" + hour + "時" + minute + "分";
 
             Intent timeintent = new Intent();
             timeintent.setClass(this, MainActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("Date", thisDate);
-            timeintent.putExtras(bundle);
 
             startActivity(timeintent);
         }

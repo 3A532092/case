@@ -151,7 +151,6 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
                 editSpeed.setEnabled(true);
                 edtaddress.setEnabled(true);
                 btnselcarkind.setEnabled(true);
-                btnselmpolice.setEnabled(true);
                 btnsellaw.setEnabled(true);
                 btnselfact.setEnabled(true);
 
@@ -256,23 +255,33 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
     private void delet(){
         SQLiteDatabase dbb = dbHelper.getReadableDatabase();
         String date=txtdate.getText().toString();
+        String pltno=editPltno.getText().toString();
+        String rule=editRule.getText().toString();
         Cursor cursor = dbb.rawQuery(
-                "select date,_ID from "+TABLE_NAME+" where date=?",
-                new String[]{date});
+                "select pltno,date,_ID,rule from "+TABLE_NAME+" where date=? and pltno=? and rule=?",
+                new String[]{date,pltno,rule});
         while (cursor.moveToNext()) {
-            String getid = cursor.getString(1);
-            dbb.delete(TABLE_NAME, _ID + "=" +getid, null);
+            String getpltno = cursor.getString(0);
+            String getdate = cursor.getString(1);
+            String getid = cursor.getString(2);
+            String getrule = cursor.getString(3);
+            dbb.delete(TABLE_NAME, _ID + "=" +getid+" and "+DATE+"='"+getdate+"' and "+PLTNO+"='"+getpltno+"' and "+RULE+"='"+getrule+"'", null);
         }
     }
 
     private void update(){
         SQLiteDatabase dbb = dbHelper.getReadableDatabase();
         String date=txtdate.getText().toString();
+        String pltno=editPltno.getText().toString();
+        String rule=editRule.getText().toString();
         Cursor cursor = dbb.rawQuery(
-                "select date,_ID from "+TABLE_NAME+" where date=?",
-                new String[]{date});
+                "select pltno,date,_ID,rule from "+TABLE_NAME+" where date=? and pltno=? and rule=?",
+                new String[]{date,pltno,rule});
         while (cursor.moveToNext()) {
-        String getid = cursor.getString(1);
+            String getpltno = cursor.getString(0);
+            String getdate = cursor.getString(1);
+            String getid = cursor.getString(2);
+            String getrule = cursor.getString(3);
 
         SQLiteDatabase db=dbHelper.getWritableDatabase();
         ContentValues values=new ContentValues();
@@ -286,7 +295,7 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
         values.put(SPLIMIT,editSpeed.getText().toString());
         values.put(DATE,txtdate.getText().toString());
         values.put(ADDR,edtaddress.getText().toString());
-        db.update(TABLE_NAME,values,_ID+"="+getid,null);
+        db.update(TABLE_NAME,values,_ID + "=" +getid+" and "+DATE+"='"+getdate+"' and "+PLTNO+"='"+getpltno+"' and "+RULE+"='"+getrule+"'",null);
     }
     }
 

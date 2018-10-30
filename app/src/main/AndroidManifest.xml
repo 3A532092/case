@@ -78,7 +78,9 @@
             android:name=".GPSinf_Activity"
             android:parentActivityName=".Record_modify" />
         <activity android:name=".Displayaddress" />
-        <activity android:name=".YNuploaded"></activity>
+        <activity android:name=".YNuploaded" />
+        <activity android:name=".Nupload" />
+        <activity android:name=".Yupload"></activity>
     </application>
 
 </manifest>
