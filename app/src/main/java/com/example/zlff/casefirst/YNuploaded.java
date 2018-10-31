@@ -22,37 +22,58 @@ public class YNuploaded extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ynuploaded);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         txt_aa=(TextView)findViewById(R.id.textView14);
+
     }
 
-    public  void ran(View view){
-
-
-
-
+   /* public  void ran(View view){
 
         //int[] ran=new int[4];
         String[] ran = {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
-        String[] getran=new String[6];
-        String aa="";
+        String[] getran=new String[4];
+        String[] getransec=new String[10];
+        String unit="",ranstr="";
+
         for(int i=0;i<getran.length;i++){
             getran[i]=ran[(int)(Math.random()*25)];
-
-        }
-        for(int i=0;i<getran.length;i++){
-            aa=aa+getran[i];
+            unit=unit+getran[i];
         }
 
-        txt_aa.setText(aa);
+        for(int i=0;i<getransec.length;i++){
+            getransec[i]=ran[(int)(Math.random()*25)];
+            ranstr=ranstr+getransec[i];
+        }
+
+        txt_aa.setText(getYMD()+unit+ranstr);
 
     }
+    private String getYMD(){
+        String newdate="";
+        Calendar mCal = Calendar.getInstance();
+
+        int[] time={mCal.get(Calendar.YEAR)-1911,mCal.get(Calendar.MONTH)+1,mCal.get(Calendar.DAY_OF_MONTH)};
+        String[] y=new String[time.length];
+        for(int i=0;i<time.length;i++){
+            if(time[i]<10){
+                y[i]=String.valueOf("0"+time[i]);
+            }
+            else
+                y[i]=String.valueOf(time[i]);
+        }
+        for(int i=0;i<time.length;i++){
+            newdate=newdate+y[i];
+        }
+        return newdate;
+    }*/
+
 
     public void Nup(View view){
         startActivityForResult(new Intent(this,Nupload.class),SET_UPLOAD);
     }
     public void Yup(View view){
-        startActivity(new Intent(this,Yupload.class));
+        startActivity(new Intent(this,Album.class));
     }
 
 

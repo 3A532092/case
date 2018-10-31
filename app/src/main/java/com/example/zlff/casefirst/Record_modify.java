@@ -52,7 +52,7 @@ import static com.example.zlff.casefirst.DbConstants.USERNAME;
 import static com.example.zlff.casefirst.DbConstants.WHITELIST;
 
 
-public class Record_modify extends AppCompatActivity implements AsyncResponse,View.OnClickListener{
+public class Record_modify extends AppCompatActivity implements View.OnClickListener{
     private EditText editPname,editPltno,editCarkind1,editCarkind2,editRule,editTruth,editWhitelist,editSpeed,editSplimit,edtaddress;
     private TextView txtdate;
     private Button btnselcarkind,btnsellaw,btnselmpolice,btnselfact,btnupload,btnphoto;
@@ -129,6 +129,7 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
         btnphoto=(Button)findViewById(R.id.btn_photo);
         edtaddress=(EditText) findViewById(R.id.edt_address);
 
+
     }
 
     @Override
@@ -173,8 +174,8 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         delet();
-                        startActivity(new Intent(Record_modify.this,Savelist.class));
-
+                        //startActivity(new Intent(Record_modify.this,Yupload.class));
+                        finish();
                     }
                 });
                 dialog.setButton2("No", new DialogInterface.OnClickListener() {
@@ -230,7 +231,7 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
                 aMenu.getItem(2).setVisible(true);
                 aMenu.getItem(2).setEnabled(true);
                 }
-                /*else if(Btnupload != null){
+                else if(Btnupload.charAt(0) == 'y'){
                 aMenu.getItem(0).setVisible(false);
                 aMenu.getItem(0).setEnabled(false);
                 aMenu.getItem(1).setVisible(true);
@@ -238,7 +239,7 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
                 aMenu.getItem(2).setVisible(false);
                 aMenu.getItem(2).setEnabled(false);
 
-            }*/
+            }
                 else{
                 aMenu.getItem(0).setVisible(true);
                 aMenu.getItem(0).setEnabled(true);
@@ -345,7 +346,6 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
     }
 
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -356,77 +356,11 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.btn_upload){
-            if(editPname.getText().toString().matches("") || editPltno.getText().toString().matches("")||editCarkind1.getText().toString().matches("")|| editRule.getText().toString().matches("")|| editTruth.getText().toString().matches("")){
-                Toast.makeText(this, "請完成資料", Toast.LENGTH_LONG).show();
-                datafinish=1;
-            }
-            else {
-                dialog=new AlertDialog.Builder(Record_modify.this).create();
-                dialog.setTitle("請選擇");
-                dialog.setMessage("是否要上傳此筆紀錄?");
-                dialog.setButton("Yes", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-
-                        HashMap postData = new HashMap();
-                        postData.put("mobile", "android");
-                        postData.put("btnupload", "Login");
-                        PostResponseAsyncTask task  = new PostResponseAsyncTask(Record_modify.this,postData);
-                        task.execute("http://10.0.2.2/Myfirstserve/ckeckupload.php");
-
-
-
-                    }
-                });
-                dialog.setButton2("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
-
-
-
-
-                /*舊HashMap postData = new HashMap();
-                postData.put("txtnumber", editNum.getText().toString());
-                postData.put("txtLic", editLic.getText().toString());
-                postData.put("txtcarkind2", editCarkind.getText().toString());
-                postData.put("txtlaw", editLaw.getText().toString());
-                postData.put("txtremarks", editRemarks.getText().toString());
-                postData.put("txtfact", editFact.getText().toString());
-                postData.put("txtdate", txtdate.getText().toString());
-
-                PostResponseAsyncTask task = new PostResponseAsyncTask(this, postData);
-                task.execute("http://10.0.2.2/Myfirstserve/Android insertMySQL.php");*/
-            }
-
-        }
 
     }
 
-    @Override
-    public void processFinish(String result) {
-            /*if(result.equals("yes")){
-                //更新BTNUPLOAD上傳按鈕狀態
-                SQLiteDatabase dbb = dbHelper.getReadableDatabase();
-                String num=editNum.getText().toString();
-                Cursor cursor = dbb.rawQuery(
-                        "select num,_ID from "+TABLE_NAME+" where num=?",
-                        new String[]{num});
-                while (cursor.moveToNext()) {
-                    String getid = cursor.getString(1);
-                    SQLiteDatabase db=dbHelper.getWritableDatabase();
-                    ContentValues values=new ContentValues();
-                    values.put(BTNUPLOAD,"1");
-                    values.put(NUM,num+("(已上傳)"));
-                    db.update(TABLE_NAME,values,_ID+"="+getid,null);
-                }
-                //將編輯按鈕隱藏
+
+                /*//將編輯按鈕隱藏
                 aMenu.getItem(0).setVisible(false);
                 aMenu.getItem(0).setEnabled(false);
                 aMenu.getItem(1).setVisible(true);
@@ -435,53 +369,9 @@ public class Record_modify extends AppCompatActivity implements AsyncResponse,Vi
                 aMenu.getItem(2).setEnabled(false);
                 uploadMultipart();
                 btnupload.setEnabled(false);
-                Toast.makeText(this, "上傳成功???", Toast.LENGTH_LONG).show();
-
-        }
-        else {
-                Toast.makeText(this, "上傳失敗", Toast.LENGTH_LONG).show();
-            }*/
-    }
+                Toast.makeText(this, "上傳成功???", Toast.LENGTH_LONG).show();*/
 
 
-
-    public void uploadMultipart() {
-        //getting the actual path of the image
-       /* String newdate=txtdate.getText().toString().replaceAll("(?:年|月)","/");
-        String newday=newdate.replace('日',' ');
-        String newtime=newday.replace('時',':');
-        String lasttime=newtime.replace('分',' ');
-
-
-        //Uploading code
-        try {
-            String uploadId = UUID.randomUUID().toString();
-
-
-            //Creating a multi part request
-            new MultipartUploadRequest(this, uploadId, UPLOAD_URL)
-                    .setUtf8Charset()
-                    .addFileToUpload(pic, "image") //Adding file(path為圖片路徑)
-                    .addParameter("qq", editNum.getText().toString()) //Adding text parameter to the request
-                    .addParameter("aa", editLic.getText().toString())
-                    .addParameter("zz", editCarkind.getText().toString())
-                    .addParameter("ww", editLaw.getText().toString())
-                    .addParameter("ss", editRemarks.getText().toString())
-                    .addParameter("xx", editFact.getText().toString())
-                    .addParameter("ee", lasttime)
-                    .addParameter("ff", edtaddress.getText().toString())
-                    .setMaxRetries(11)
-                    .startUpload();//Starting the upload
-            //Toast.makeText(this,"上傳成功",Toast.LENGTH_SHORT).show();
-
-        }
-
-        catch (Exception exc) {
-            Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();
-
-        }
-*/
-    }
 
     private void requestStoragePermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)

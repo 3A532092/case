@@ -50,6 +50,16 @@
                 android:value=".Home" />
         </activity>
         <activity
+            android:name=".YNuploaded"
+            android:parentActivityName=".Home">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Home" />
+        </activity>
+
+        <activity
             android:name=".CameraActivity"
             android:parentActivityName=".MainActivity">
 
@@ -58,6 +68,37 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Home" />
         </activity>
+
+        <activity
+            android:name=".Nupload"
+            android:parentActivityName=".YNuploaded">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Home" />
+        </activity>
+
+        <activity
+            android:name=".Album"
+            android:parentActivityName=".YNuploaded">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Home" />
+        </activity>
+
+        <activity
+            android:name=".Yupload"
+            android:parentActivityName=".Album">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Home" />
+        </activity>
+
         <activity android:name=".LoginAvtivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -78,9 +119,6 @@
             android:name=".GPSinf_Activity"
             android:parentActivityName=".Record_modify" />
         <activity android:name=".Displayaddress" />
-        <activity android:name=".YNuploaded" />
-        <activity android:name=".Nupload" />
-        <activity android:name=".Yupload"></activity>
     </application>
 
 </manifest>

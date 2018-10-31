@@ -279,36 +279,24 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private String getdate(){
+        String newdate="";
         Calendar mCal = Calendar.getInstance();
-        minute=Integer.toString(mCal.get(Calendar.MINUTE));
-        year=Integer.toString(mCal.get(Calendar.YEAR));
-        month=Integer.toString(mCal.get(Calendar.MONTH));
-        day=Integer.toString(mCal.get(Calendar.DAY_OF_MONTH));
-        hour=Integer.toString(mCal.get(Calendar.HOUR_OF_DAY));
-        sec=Integer.toString(mCal.get(Calendar.SECOND));
+        String[] YMD={"年","月","日","時","分","秒"};
 
-        if(mCal.get(Calendar.MINUTE)<10){
-            minute="0"+Integer.toString(mCal.get(Calendar.MINUTE));
+        int[] time={mCal.get(Calendar.YEAR)-1911,mCal.get(Calendar.MONTH)+1,mCal.get(Calendar.DAY_OF_MONTH),mCal.get(Calendar.HOUR_OF_DAY),mCal.get(Calendar.MINUTE),mCal.get(Calendar.SECOND)};
+        String[] y=new String[time.length];
+        for(int i=0;i<time.length;i++){
+            if(time[i]<10){
+                y[i]=String.valueOf("0"+time[i]);
+            }
+            else
+                y[i]=String.valueOf(time[i]);
         }
-        if(mCal.get(Calendar.YEAR)<10){
-            year="0"+Integer.toString(mCal.get(Calendar.YEAR));
-        }
-        if(mCal.get(Calendar.MONTH)<10){
-            month="0"+Integer.toString(mCal.get(Calendar.MONTH));
-        }
-        if(mCal.get(Calendar.DAY_OF_MONTH)<10){
-            day="0"+Integer.toString(mCal.get(Calendar.DAY_OF_MONTH));
-        }
-        if(mCal.get(Calendar.HOUR_OF_DAY)<10){
-            hour="0"+Integer.toString(mCal.get(Calendar.HOUR_OF_DAY));
-        }
-        if(mCal.get(Calendar.SECOND)<10){
-            sec="0"+Integer.toString(mCal.get(Calendar.SECOND));
+        for(int i=0;i<time.length;i++){
+            newdate=newdate+y[i]+YMD[i];
         }
 
-            thisDate = year + "年" + month + "月" + day + "日" + hour + "時" + minute + "分"+sec+"秒";
-
-        return thisDate;
+        return newdate;
 
     }
 

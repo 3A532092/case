@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Nupload">
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="未上傳" />
 
     <ListView
         android:id="@+id/list_nsave"
@@ -13,19 +21,16 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
     </ListView>
 
     <Button
         android:id="@+id/btn_upload"
-        android:layout_width="265dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="516dp"
-        android:onClick="upload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="Click_upload"
         android:text="一鍵上傳"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
