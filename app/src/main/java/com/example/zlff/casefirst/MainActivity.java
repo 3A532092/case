@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -86,6 +88,7 @@ public class MainActivity extends AppCompatActivity{
 
         //btn_carkind對話方塊
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
+
         builder.setTitle("選擇車種");
         builder.setItems(option,listener);
         builder.setNegativeButton("取消",null);
@@ -135,11 +138,24 @@ public class MainActivity extends AppCompatActivity{
     };
 
     public  void btn_carkind(View view){
+
         dialog_carkind.show();
     }
 
     public  void btn_rule(View view){
-        dialog_rule.show();
+       // dialog_rule.show();
+
+        LayoutInflater factory=LayoutInflater.from(MainActivity.this);
+        View view2=factory.inflate(R.layout.activity_home , null);
+        AlertDialog dialog02=new AlertDialog.Builder(MainActivity.this)
+        .setIcon(android.R.drawable.btn_star)
+        .setTitle("登录")
+        .setView(view2)
+        .setPositiveButton("Yes",null)
+        .setNegativeButton("No",null).create();
+        dialog02.show();
+
+
     }
 
 
@@ -193,29 +209,37 @@ public class MainActivity extends AppCompatActivity{
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_search:
-                dialog=new AlertDialog.Builder(MainActivity.this).create();
-                dialog.setTitle("請選擇");
-                dialog.setMessage("是否儲存?");
-                dialog.setButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        SQLadd();
-                        txv_date.setText(getdate());
-
-
+                int place=editPltno.getText().toString().indexOf('-');
+                if(editPltno.length()<=5 || editPltno.getText().toString().indexOf('-') == -1 || editPltno.getText().toString().indexOf('-',editPltno.getText().toString().indexOf('-')+1) != -1 || place ==0 ||place ==1 || place ==5 || place ==6 || place ==7){
+                    Toast.makeText(this, "車牌格式錯誤", Toast.LENGTH_LONG).show();
+                }
+                else if(Integer.parseInt(editSpeed.getText().toString())<Integer.parseInt(editSplimit.getText().toString())){
+                    Toast.makeText(this, "速限或車速格式錯誤", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    dialog=new AlertDialog.Builder(MainActivity.this).create();
+                    dialog.setTitle("請選擇");
+                    dialog.setMessage("是否儲存?");
+                    dialog.setButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            SQLadd();
+                            txv_date.setText(getdate());
                         }
-
                     });
-                dialog.setButton2("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    dialog.setButton2("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                    return true;
+                }
 
-                return true;
+
+
             default:
                 return super.onOptionsItemSelected(item);
         }
