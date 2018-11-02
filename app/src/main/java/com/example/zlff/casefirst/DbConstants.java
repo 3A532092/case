@@ -8,6 +8,8 @@ public interface DbConstants extends BaseColumns {
 
     public static final String REMARKS="remarks";
     public static final String DATE="date";
+    public static final String J_DATE="j_date";
+    public static final String J_TIME="j_time";
     public static final String PIC="pic";
     public static final String ADDR="addr";
     public static final String USERNAME="username";

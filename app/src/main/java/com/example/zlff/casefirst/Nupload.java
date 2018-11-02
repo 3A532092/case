@@ -13,8 +13,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kosalgeek.asynctask.PostResponseAsyncTask;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -56,6 +61,7 @@ public class Nupload extends AppCompatActivity {
         int[] to = {R.id.txtPltno, R.id.txtDate};
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.data_item, cursor, from, to); //SimpleCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to)
         list_nsave.setAdapter(adapter);
+
         list_nsave.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int index, long id) {
@@ -73,21 +79,92 @@ public class Nupload extends AppCompatActivity {
     }
 
     public void Click_upload(View view){
-        dialog=new AlertDialog.Builder(Nupload.this).create();
-        dialog.setTitle("請選擇");
-        dialog.setMessage("是否上傳?");
-        dialog.setButton("確認", new DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                SQLiteDatabase db=dbHelper.getWritableDatabase();
-                ContentValues values=new ContentValues();
-                values.put(BTNUPLOAD,"y");
-                values.put(ALBUM,ran());
-                db.update(TABLE_NAME,values,BTNUPLOAD+"='n'",null);
+        if(list_nsave.getCount()==0){
+            Toast.makeText(this, "無資料可上傳", Toast.LENGTH_LONG).show();
 
+            //轉json
+            }
+
+            /*try {
+                JSONObject inf = new JSONObject();
+
+                JSONArray array = new JSONArray();
+                JSONObject arr_ = new JSONObject();
+                arr_.put("name", "張三");
+                arr_.put("age","");
+                arr_.put("IdCard", "XC");
+                arr_.put("married", true);
+
+                arr_.put("name", "李四");
+                arr_.put("age","");
+                arr_.put("IdCard", "@DC");
+                arr_.put("married", true);
+                array.put( arr_);
+
+                inf.put("inf", array);
+                txv_out.setText(array.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }*/
+        else {
+            dialog=new AlertDialog.Builder(Nupload.this).create();
+            dialog.setTitle("請選擇");
+            dialog.setMessage("是否上傳?");
+            dialog.setButton("確認", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    SQLiteDatabase db=dbHelper.getWritableDatabase();
+                    ContentValues values=new ContentValues();
+                    String album=ran();
+
+            try {
+                TextView txv_out=(TextView)findViewById(R.id.textView15);
+                SQLiteDatabase dbb = dbHelper.getReadableDatabase();
+                Cursor cursor = dbb.rawQuery(
+                        "select pltno,carkind,j_date,addr,splimit,speed,rule,truth,pname,album,j_time,whitelist,pic,btnupload from "+TABLE_NAME+" where btnupload='n'",
+                        new String[]{});
+                JSONArray array = new JSONArray();
+                JSONObject obj = new JSONObject();
+
+                cursor.moveToFirst();
+                do{        // 逐筆讀出資料
+
+                    obj.put("type", "逕舉");
+                    obj.put("pltno", cursor.getString(0));
+                    obj.put("carkind",cursor.getString(1));
+                    obj.put("vil_dt", cursor.getString(2));
+                    obj.put("vil_tm", cursor.getString(10));
+                    obj.put("vil_addr",cursor.getString(3));
+                    obj.put("splimit", cursor.getString(4));
+                    obj.put("speed", cursor.getString(5));
+                    obj.put("rule1",cursor.getString(6));
+                    obj.put("truth1", cursor.getString(7));
+                    obj.put("unit", "");
+                    obj.put("pname",cursor.getString(8));
+                    obj.put("report_dt", "");
+                    obj.put("report_no", "");
+                    obj.put("piccnt","");
+                    obj.put("picture", "");
+                    obj.put("PathLift", "");
+                    obj.put("account","");
+                    obj.put("Album", album);
+
+                    array.put(obj);
+                } while(cursor.moveToNext());    // 有一下筆就繼續迴圈
+
+                txv_out.setText(array.toString());
+
+                values.put(BTNUPLOAD,"y");
+                values.put(ALBUM,album);
+                db.update(TABLE_NAME,values,BTNUPLOAD+"='n'",null);
+                dbb.close();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
                 setResult(RESULT_OK);
-                finish();
+                //finish();
 
             }
         });
@@ -101,7 +178,7 @@ public class Nupload extends AppCompatActivity {
         dialog.show();
 
 
-        }
+        }}
 
      private  String ran(){
 
@@ -150,7 +227,7 @@ public class Nupload extends AppCompatActivity {
         String getusername = getSharedPreferences("00", MODE_PRIVATE)
                 .getString("username", "");
 
-        SQLiteDatabase db = dbHelper.getReadableDatabase();  //透過dbHelper取得讀取資料庫的SQLiteDatabase物件，可用在查詢
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
         String[] columns = {USERNAME, _ID, PNAME, PLTNO, CARKIND, RULE, WHITELIST, TRUTH, DATE,BTNUPLOAD};
         Cursor cursor = db.query(TABLE_NAME, columns, "btnupload ='n' and USERNAME='" + getusername + "'", null, null, null, null);  //查詢所有欄位的資料
         return cursor;

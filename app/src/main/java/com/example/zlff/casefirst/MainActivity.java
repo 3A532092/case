@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +31,8 @@ import static com.example.zlff.casefirst.DbConstants.ADDR;
 import static com.example.zlff.casefirst.DbConstants.BTNUPLOAD;
 import static com.example.zlff.casefirst.DbConstants.CARKIND;
 import static com.example.zlff.casefirst.DbConstants.DATE;
+import static com.example.zlff.casefirst.DbConstants.J_DATE;
+import static com.example.zlff.casefirst.DbConstants.J_TIME;
 import static com.example.zlff.casefirst.DbConstants.NUM;
 import static com.example.zlff.casefirst.DbConstants.PLTNO;
 import static com.example.zlff.casefirst.DbConstants.PNAME;
@@ -54,7 +57,7 @@ public class MainActivity extends AppCompatActivity{
     String[] option={"1 汽車","2 拖車","3 重機","4 輕機","5 機械牌(機械)","6 臨時牌(臨)","7 試車牌(試)","1a 軍車牌(軍)","1b 領事牌(領)", "1c 外交牌(外)","1d 外交牌(使)"};
     String[] rules;
     String year, month, day, hour, minute,sec;
-    String thisDate;
+    String str_pname="警員";
 
 
     @Override
@@ -66,12 +69,23 @@ public class MainActivity extends AppCompatActivity{
 
         rules = getResources().getStringArray(R.array.rule_array);
         //顯示spinner
-        Spinner reportspinn=(Spinner)findViewById(R.id.reportnam_spinner);
+        final Spinner reportspinn=(Spinner)findViewById(R.id.reportnam_spinner);
         ArrayAdapter<CharSequence> nAdapter = ArrayAdapter.createFromResource(
                 this, R.array.category_array, android.R.layout.simple_spinner_item );
         nAdapter.setDropDownViewResource(
                 android.R.layout.simple_spinner_dropdown_item);
        reportspinn.setAdapter(nAdapter);
+       reportspinn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+           @Override
+           public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+               str_pname=reportspinn.getSelectedItem().toString();
+           }
+
+           @Override
+           public void onNothingSelected(AdapterView<?> adapterView) {
+
+           }
+       });
 
         //洗去Db pic資料
         SharedPreferences pref = getSharedPreferences("00", MODE_PRIVATE);
@@ -83,7 +97,7 @@ public class MainActivity extends AppCompatActivity{
         openDatabase();
         findViews();
         txv_date=(TextView) findViewById(R.id.txv_date);
-        txv_date.setText(getdate());
+        txv_date.setText(getdate(0));
         //displayTime();
 
         //btn_carkind對話方塊
@@ -143,9 +157,9 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public  void btn_rule(View view){
-       // dialog_rule.show();
+       dialog_rule.show();
 
-        LayoutInflater factory=LayoutInflater.from(MainActivity.this);
+        /*LayoutInflater factory=LayoutInflater.from(MainActivity.this);
         View view2=factory.inflate(R.layout.activity_home , null);
         AlertDialog dialog02=new AlertDialog.Builder(MainActivity.this)
         .setIcon(android.R.drawable.btn_star)
@@ -153,7 +167,7 @@ public class MainActivity extends AppCompatActivity{
         .setView(view2)
         .setPositiveButton("Yes",null)
         .setNegativeButton("No",null).create();
-        dialog02.show();
+        dialog02.show();*/
 
 
     }
@@ -224,7 +238,7 @@ public class MainActivity extends AppCompatActivity{
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             SQLadd();
-                            txv_date.setText(getdate());
+                            txv_date.setText(getdate(0));
                         }
                     });
                     dialog.setButton2("No", new DialogInterface.OnClickListener() {
@@ -252,8 +266,8 @@ public class MainActivity extends AppCompatActivity{
         editwhitelist.setText("");
         editPltno.setText("");
         editRule.setText("");
-        editSpeed.setText("");
-        editSplimit.setText("");
+        editSpeed.setText("0");
+        editSplimit.setText("0");
         editTruth.setText("");
     }
     private void SQLadd(){
@@ -270,7 +284,7 @@ public class MainActivity extends AppCompatActivity{
 
         SQLiteDatabase db=dbHelper.getWritableDatabase();  //透過dbHelper取得讀取資料庫的SQLiteDatabase物件，可用在新增、修改與刪除
         ContentValues values=new ContentValues();  //建立 ContentValues 物件並呼叫 put(key,value) 儲存欲新增的資料，key 為欄位名稱  value 為對應值。
-        values.put(PNAME,editPname.getText().toString());
+        values.put(PNAME,str_pname+"-"+editPname.getText().toString());
         values.put(PLTNO,editPltno.getText().toString());
         values.put(WHITELIST,editwhitelist.getText().toString());
         values.put(CARKIND,editCarkind1.getText().toString());
@@ -279,6 +293,8 @@ public class MainActivity extends AppCompatActivity{
         values.put(SPEED,editSpeed.getText().toString());
         values.put(TRUTH,editTruth.getText().toString());
         values.put(DATE,txtdate.getText().toString());
+        values.put(J_DATE,getdate(1));
+        values.put(J_TIME,getdate(2));
         values.put(PIC,pic);
         values.put(ADDR,getaddress);
         values.put(USERNAME,getusername);
@@ -297,30 +313,42 @@ public class MainActivity extends AppCompatActivity{
             //date=bundle.getString("Date");
 
             TextView txv_date=(TextView) findViewById(R.id.txv_date);
-            txv_date.setText(getdate());
+            txv_date.setText(getdate(0));
         }
 
     }
 
-    private String getdate(){
-        String newdate="";
+    private String getdate(int xx) {
+        String newdate = "";
+        String output="";
         Calendar mCal = Calendar.getInstance();
-        String[] YMD={"年","月","日","時","分","秒"};
+        String[] YMD = {"年", "月", "日", "時", "分", "秒"};
 
-        int[] time={mCal.get(Calendar.YEAR)-1911,mCal.get(Calendar.MONTH)+1,mCal.get(Calendar.DAY_OF_MONTH),mCal.get(Calendar.HOUR_OF_DAY),mCal.get(Calendar.MINUTE),mCal.get(Calendar.SECOND)};
-        String[] y=new String[time.length];
-        for(int i=0;i<time.length;i++){
-            if(time[i]<10){
-                y[i]=String.valueOf("0"+time[i]);
-            }
-            else
-                y[i]=String.valueOf(time[i]);
+        int[] time = {mCal.get(Calendar.YEAR) - 1911, mCal.get(Calendar.MONTH) + 1, mCal.get(Calendar.DAY_OF_MONTH), mCal.get(Calendar.HOUR_OF_DAY), mCal.get(Calendar.MINUTE), mCal.get(Calendar.SECOND)};
+        String[] y = new String[time.length];
+        for (int i = 0; i < time.length; i++) {
+            if (time[i] < 10) {
+                y[i] = String.valueOf("0" + time[i]);
+            } else
+                y[i] = String.valueOf(time[i]);
         }
-        for(int i=0;i<time.length;i++){
-            newdate=newdate+y[i]+YMD[i];
+        for (int i = 0; i < time.length; i++) {
+            newdate = newdate + y[i] + YMD[i];
         }
+        switch (xx) {
+            case 0:
+                output=newdate;
+            break;
 
-        return newdate;
+            case 1:
+                output=y[0] + y[1] + y[2];
+            break;
+
+            case 2:
+                output=y[3] + y[4];
+            break;
+        }
+        return output;
 
     }
 

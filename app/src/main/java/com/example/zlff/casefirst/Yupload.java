@@ -1,8 +1,10 @@
 package com.example.zlff.casefirst;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+
 
 import static android.provider.BaseColumns._ID;
 import static com.example.zlff.casefirst.DbConstants.BTNUPLOAD;
@@ -27,6 +30,7 @@ public class Yupload extends AppCompatActivity {
     private DBHelper dbHelper;
     private ListView list_ysave;
     String getalbum;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +68,7 @@ public class Yupload extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     private Cursor getCursor() {
@@ -76,7 +81,8 @@ public class Yupload extends AppCompatActivity {
         return cursor;
     }
 
-    @Override       //这里是实现了自动更新
+
+    @Override
     protected void onResume() {
         super.onResume();
         showInList();

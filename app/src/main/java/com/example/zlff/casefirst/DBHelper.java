@@ -9,6 +9,8 @@ import static com.example.zlff.casefirst.DbConstants.ALBUM;
 import static com.example.zlff.casefirst.DbConstants.BTNUPLOAD;
 import static com.example.zlff.casefirst.DbConstants.CARKIND;
 import static com.example.zlff.casefirst.DbConstants.DATE;
+import static com.example.zlff.casefirst.DbConstants.J_DATE;
+import static com.example.zlff.casefirst.DbConstants.J_TIME;
 import static com.example.zlff.casefirst.DbConstants.NUM;
 import static com.example.zlff.casefirst.DbConstants.PLTNO;
 import static com.example.zlff.casefirst.DbConstants.REMARKS;
@@ -24,13 +26,13 @@ import static com.example.zlff.casefirst.DbConstants.WHITELIST;
 
 public class DBHelper extends SQLiteOpenHelper {
         private final static String DATABASE_NAME="violation.db";  //資料庫檔案名稱
-        private final static int DATABASE_VERSION=7;   //資料庫版本
+        private final static int DATABASE_VERSION=8;   //資料庫版本
         public DBHelper(Context context){
             super(context,DATABASE_NAME,null,DATABASE_VERSION);
         }
         @Override
         public void onCreate(SQLiteDatabase db) {
-            final String INIT_TABLE="create table "+TABLE_NAME+"("+_ID+" integer primary key autoincrement,"+USERNAME+" char,"+PNAME+" char,"+PLTNO+" char,"+ALBUM+" char,"+CARKIND+" char,"+RULE+" char,"+WHITELIST+" char,"+SPEED+" char,"+SPLIMIT+" char,"+TRUTH+" char,"+ADDR+" char,"+BTNUPLOAD+" char,"+DATE+" char,"+PIC+" char)";
+            final String INIT_TABLE="create table "+TABLE_NAME+"("+_ID+" integer primary key autoincrement,"+USERNAME+" char,"+PNAME+" char,"+PLTNO+" char,"+ALBUM+" char,"+J_DATE+" char,"+J_TIME+" char,"+CARKIND+" char,"+RULE+" char,"+WHITELIST+" char,"+SPEED+" char,"+SPLIMIT+" char,"+TRUTH+" char,"+ADDR+" char,"+BTNUPLOAD+" char,"+DATE+" char,"+PIC+" char)";
             db.execSQL(INIT_TABLE);
 
         }
