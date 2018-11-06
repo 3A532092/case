@@ -34,6 +34,11 @@ import static com.example.zlff.casefirst.DbConstants.DATE;
 import static com.example.zlff.casefirst.DbConstants.J_DATE;
 import static com.example.zlff.casefirst.DbConstants.J_TIME;
 import static com.example.zlff.casefirst.DbConstants.NUM;
+import static com.example.zlff.casefirst.DbConstants.PIC_1;
+import static com.example.zlff.casefirst.DbConstants.PIC_2;
+import static com.example.zlff.casefirst.DbConstants.PIC_3;
+import static com.example.zlff.casefirst.DbConstants.PIC_4;
+import static com.example.zlff.casefirst.DbConstants.PIC_5;
 import static com.example.zlff.casefirst.DbConstants.PLTNO;
 import static com.example.zlff.casefirst.DbConstants.PNAME;
 import static com.example.zlff.casefirst.DbConstants.RULE;
@@ -87,12 +92,7 @@ public class MainActivity extends AppCompatActivity{
            }
        });
 
-        //洗去Db pic資料
-        SharedPreferences pref = getSharedPreferences("00", MODE_PRIVATE);
-        pref.edit()
-                .putString("pic",null)
-                .putString("address",null)
-                .commit();
+
 
         openDatabase();
         findViews();
@@ -121,14 +121,14 @@ public class MainActivity extends AppCompatActivity{
         btn_tocameraAc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(MainActivity.this,CameraActivity.class),SET_PHOTOSAVE);
+                startActivityForResult(new Intent(MainActivity.this,Picture_Activity.class),SET_PHOTOSAVE);
             }
         });
 
         btn_toGPS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(MainActivity.this,GPSinf_Activity.class),SET_ADDRESS);
+                startActivityForResult(new Intent(MainActivity.this,AddressGPSActivity.class),SET_ADDRESS);
             }
         });
 
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public  void btn_rule(View view){
-       dialog_rule.show();
+       //dialog_rule.show();
 
         /*LayoutInflater factory=LayoutInflater.from(MainActivity.this);
         View view2=factory.inflate(R.layout.activity_home , null);
@@ -168,6 +168,29 @@ public class MainActivity extends AppCompatActivity{
         .setPositiveButton("Yes",null)
         .setNegativeButton("No",null).create();
         dialog02.show();*/
+        AlertDialog.Builder editDialog = new AlertDialog.Builder(MainActivity.this);
+        editDialog.setTitle("--- Edit ---");
+
+        final EditText editText = new EditText(MainActivity.this);
+
+        editText.setText("2");
+        editDialog.setView(editText);
+
+
+        editDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            // do something when the button is clicked
+            public void onClick(DialogInterface arg0, int arg1) {
+
+            }
+        });
+        editDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            // do something when the button is clicked
+            public void onClick(DialogInterface arg0, int arg1) {
+                //...
+            }
+        });
+        editDialog.show();
+
 
 
     }
@@ -238,6 +261,16 @@ public class MainActivity extends AppCompatActivity{
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             SQLadd();
+                            //洗去Db pic資料
+                            SharedPreferences pref = getSharedPreferences("00", MODE_PRIVATE);
+                            pref.edit()
+                                    .putString("pic1",null)
+                                    .putString("pic2",null)
+                                    .putString("pic3",null)
+                                    .putString("pic4",null)
+                                    .putString("pic5",null)
+                                    .putString("address",null)
+                                    .commit();
                             txv_date.setText(getdate(0));
                         }
                     });
@@ -269,11 +302,26 @@ public class MainActivity extends AppCompatActivity{
         editSpeed.setText("0");
         editSplimit.setText("0");
         editTruth.setText("");
+        btn_tocameraAc.setText("照相機(未儲存)");
+        btn_toGPS.setText("定位資訊(未儲存)");
+
     }
     private void SQLadd(){
         //從cameraActivity傳來pic name
-        String pic = getSharedPreferences("00", MODE_PRIVATE)
-                .getString("pic", "");
+        String pic1 = getSharedPreferences("00", MODE_PRIVATE)
+                .getString("pic1", "");
+
+        String pic2 = getSharedPreferences("00", MODE_PRIVATE)
+                .getString("pic2", "");
+
+        String pic3 = getSharedPreferences("00", MODE_PRIVATE)
+                .getString("pic3", "");
+
+        String pic4 = getSharedPreferences("00", MODE_PRIVATE)
+                .getString("pic4", "");
+
+        String pic5 = getSharedPreferences("00", MODE_PRIVATE)
+                .getString("pic5", "");
 
         String getaddress = getSharedPreferences("00", MODE_PRIVATE)
                 .getString("address", "");
@@ -295,7 +343,11 @@ public class MainActivity extends AppCompatActivity{
         values.put(DATE,txtdate.getText().toString());
         values.put(J_DATE,getdate(1));
         values.put(J_TIME,getdate(2));
-        values.put(PIC,pic);
+        values.put(PIC_1,pic1);
+        values.put(PIC_2,pic2);
+        values.put(PIC_3,pic3);
+        values.put(PIC_4,pic4);
+        values.put(PIC_5,pic5);
         values.put(ADDR,getaddress);
         values.put(USERNAME,getusername);
         values.put(BTNUPLOAD,"n");
@@ -303,6 +355,8 @@ public class MainActivity extends AppCompatActivity{
         db.insert(TABLE_NAME,null,values);
         db.close();
         cleanEditText();
+
+
     }
 
 

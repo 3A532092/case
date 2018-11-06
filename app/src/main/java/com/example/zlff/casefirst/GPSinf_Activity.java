@@ -187,6 +187,7 @@ public class GPSinf_Activity extends AppCompatActivity {
         dialog.setButton("Yes", new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 SharedPreferences pref = getSharedPreferences("00", MODE_PRIVATE);
                 pref.edit()
                         .putString("address",edt_address.getText().toString())

@@ -60,7 +60,7 @@ public class Record_modify extends AppCompatActivity implements View.OnClickList
     private Menu aMenu;
     private DBHelper dbHelper;
     private  int datafinish=0;
-    private String pic;
+    private String pic_1,pic_2,pic_3,pic_4,pic_5;
     private static final String UPLOAD_URL = "http://10.0.2.2/Myfirstserve/insert_image.php";
     private static final int IMAGE_REQUEST_CODE = 3;
     private static final int STORAGE_PERMISSION_CODE = 123;
@@ -88,9 +88,13 @@ public class Record_modify extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(Record_modify.this, DisplayPhotoPage.class);
+                intent.setClass(Record_modify.this, DisplayPic.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("picname",pic);
+                bundle.putString("pic_1",pic_1);
+                bundle.putString("pic_2",pic_2);
+                bundle.putString("pic_3",pic_3);
+                bundle.putString("pic_4",pic_4);
+                bundle.putString("pic_5",pic_5);
                 intent.putExtras(bundle);
                 startActivity(intent);
 
@@ -309,7 +313,7 @@ public class Record_modify extends AppCompatActivity implements View.OnClickList
             todate=bundle.getString("TODATE");
 
             Cursor cursor = db.rawQuery(
-                    "select pname,whitelist,pltno,carkind,rule,truth,splimit,speed,pic,addr,btnupload from "+TABLE_NAME+" where date=? and pltno=?",
+                    "select pname,whitelist,pltno,carkind,rule,truth,splimit,speed,pic_1,addr,btnupload,pic_2,pic_3,pic_4,pic_5 from "+TABLE_NAME+" where date=? and pltno=?",
                     new String[]{todate,pltno});
             while (cursor.moveToNext()) {
 
@@ -322,7 +326,11 @@ public class Record_modify extends AppCompatActivity implements View.OnClickList
                 String Splimit = cursor.getString(6);
                 String Speed = cursor.getString(7);
 
-                pic = cursor.getString(8);
+                pic_1 = cursor.getString(8);
+                pic_2 = cursor.getString(11);
+                pic_3 = cursor.getString(12);
+                pic_4 = cursor.getString(13);
+                pic_5 = cursor.getString(14);
                 String Address = cursor.getString(9);
                 Btnupload = cursor.getString(10);
 

@@ -23,6 +23,12 @@ public interface DbConstants extends BaseColumns {
     public static final String SPLIMIT="splimit";
     public static final String SPEED="speed";
     public static final String ALBUM="album";
+    public static final String PIC_1="pic_1";
+    public static final String PIC_2="pic_2";
+    public static final String PIC_3="pic_3";
+    public static final String PIC_4="pic_4";
+    public static final String PIC_5="pic_5";
+    public static final String PICCNT="piccnt";
 
 
 

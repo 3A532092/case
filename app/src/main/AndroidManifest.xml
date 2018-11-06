@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -58,7 +59,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Home" />
         </activity>
-
         <activity
             android:name=".CameraActivity"
             android:parentActivityName=".MainActivity">
@@ -68,7 +68,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Home" />
         </activity>
-
         <activity
             android:name=".Nupload"
             android:parentActivityName=".YNuploaded">
@@ -78,7 +77,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Home" />
         </activity>
-
         <activity
             android:name=".Album"
             android:parentActivityName=".YNuploaded">
@@ -88,7 +86,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Home" />
         </activity>
-
         <activity
             android:name=".Yupload"
             android:parentActivityName=".Album">
@@ -98,7 +95,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Home" />
         </activity>
-
         <activity android:name=".LoginAvtivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -119,6 +115,12 @@
             android:name=".GPSinf_Activity"
             android:parentActivityName=".Record_modify" />
         <activity android:name=".Displayaddress" />
+        <activity android:name=".Picture_Activity">
+
+            <!-- <action android:name="android.media.action.STILL_IMAGE_CAMERA" /> -->
+        </activity>
+        <activity android:name=".DisplayPic" />
+        <activity android:name=".AddressGPSActivity"></activity>
     </application>
 
 </manifest>

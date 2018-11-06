@@ -66,7 +66,7 @@ public class Album extends AppCompatActivity {
                                            int position, long id) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(Album.this);
                 builder.setTitle("刪除");
-                builder.setMessage("確認要刪除該條?");
+                builder.setMessage("確認要刪除該條項目?");
                 builder.setPositiveButton("刪除", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 

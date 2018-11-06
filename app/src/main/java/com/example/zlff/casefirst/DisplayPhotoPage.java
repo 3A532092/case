@@ -27,7 +27,7 @@ public class DisplayPhotoPage extends AppCompatActivity {
 
     private void displayPic(){
         Bundle bundle1 =this.getIntent().getExtras();
-        String getpicname = bundle1.getString("picname");
+        String getpicname = bundle1.getString("pic_1");
 
         ImageView jpgView = (ImageView)findViewById(R.id.jpgview);
         BitmapFactory.Options options = new BitmapFactory.Options();
