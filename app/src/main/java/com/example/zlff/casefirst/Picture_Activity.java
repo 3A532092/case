@@ -75,20 +75,19 @@ public class Picture_Activity extends AppCompatActivity {
         dialog.setButton("Yes", new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String aa="";
+
                 if(img2.getDrawable() == null){
                     SharedPreferences pref = getSharedPreferences("00", MODE_PRIVATE);
                     pref.edit()
                             .putString("pic1",urionly.toString())
+                            .putString("piccnt","1")
                             .commit();
-                    txvuri.setText(urionly.toString());
+
+                    setResult(RESULT_OK);
+
                     finish();
                 }else
                 {
-                    for(int i=0;i<uris.length;i++){
-                        aa=aa+uris[i].toString()+"\n";
-                    }
-
                     String[] y = new String[5];
                     for (int i = 0; i < uris.length; i++) {
                         if (uris[i]==null) {
@@ -104,8 +103,9 @@ public class Picture_Activity extends AppCompatActivity {
                             .putString("pic3",y[2])
                             .putString("pic4",y[3])
                             .putString("pic5",y[4])
+                            .putString("piccnt",Integer.toString(uris.length))
                             .commit();
-                    txvuri.setText(aa);
+
                     setResult(RESULT_OK);
                 finish();
             }

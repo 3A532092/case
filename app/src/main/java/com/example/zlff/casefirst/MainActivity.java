@@ -34,6 +34,7 @@ import static com.example.zlff.casefirst.DbConstants.DATE;
 import static com.example.zlff.casefirst.DbConstants.J_DATE;
 import static com.example.zlff.casefirst.DbConstants.J_TIME;
 import static com.example.zlff.casefirst.DbConstants.NUM;
+import static com.example.zlff.casefirst.DbConstants.PICCNT;
 import static com.example.zlff.casefirst.DbConstants.PIC_1;
 import static com.example.zlff.casefirst.DbConstants.PIC_2;
 import static com.example.zlff.casefirst.DbConstants.PIC_3;
@@ -329,6 +330,9 @@ public class MainActivity extends AppCompatActivity{
         String getusername = getSharedPreferences("00", MODE_PRIVATE)
                 .getString("username", "");
 
+        String getpiccnt = getSharedPreferences("00", MODE_PRIVATE)
+                .getString("piccnt", "");
+
 
         SQLiteDatabase db=dbHelper.getWritableDatabase();  //透過dbHelper取得讀取資料庫的SQLiteDatabase物件，可用在新增、修改與刪除
         ContentValues values=new ContentValues();  //建立 ContentValues 物件並呼叫 put(key,value) 儲存欲新增的資料，key 為欄位名稱  value 為對應值。
@@ -350,6 +354,7 @@ public class MainActivity extends AppCompatActivity{
         values.put(PIC_5,pic5);
         values.put(ADDR,getaddress);
         values.put(USERNAME,getusername);
+        values.put(PICCNT,getpiccnt);
         values.put(BTNUPLOAD,"n");
 
         db.insert(TABLE_NAME,null,values);

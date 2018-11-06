@@ -79,12 +79,9 @@ public class Nupload extends AppCompatActivity {
     }
 
     public void Click_upload(View view){
-        if(list_nsave.getCount()==0){
+        if(list_nsave.getCount()==0) {
             Toast.makeText(this, "無資料可上傳", Toast.LENGTH_LONG).show();
-
-            //轉json
-            }
-
+        }
             /*try {
                 JSONObject inf = new JSONObject();
 
@@ -107,6 +104,7 @@ public class Nupload extends AppCompatActivity {
                 e.printStackTrace();
             }*/
         else {
+
             dialog=new AlertDialog.Builder(Nupload.this).create();
             dialog.setTitle("請選擇");
             dialog.setMessage("是否上傳?");
@@ -116,19 +114,19 @@ public class Nupload extends AppCompatActivity {
                     SQLiteDatabase db=dbHelper.getWritableDatabase();
                     ContentValues values=new ContentValues();
                     String album=ran();
+                    TextView txv_out=(TextView)findViewById(R.id.textView15);
 
-            try {
-                TextView txv_out=(TextView)findViewById(R.id.textView15);
-                SQLiteDatabase dbb = dbHelper.getReadableDatabase();
-                Cursor cursor = dbb.rawQuery(
-                        "select pltno,carkind,j_date,addr,splimit,speed,rule,truth,pname,album,j_time,whitelist,pic,btnupload from "+TABLE_NAME+" where btnupload='n'",
-                        new String[]{});
-                JSONArray array = new JSONArray();
-                JSONObject obj = new JSONObject();
 
+                    SQLiteDatabase dbb = dbHelper.getReadableDatabase();
+                    Cursor cursor = dbb.rawQuery(
+                            "select pltno,carkind,j_date,addr,splimit,speed,rule,truth,pname,album,j_time,whitelist,pic,btnupload,piccnt from "+TABLE_NAME+" where btnupload='n'",
+                            new String[]{});
+                    JSONArray array = new JSONArray();
+                    JSONObject obj = new JSONObject();
+             try {
                 cursor.moveToFirst();
-                do{        // 逐筆讀出資料
-
+                int i=0;
+                 while(!cursor.isAfterLast()){        // 逐筆讀出資料cursor.moveToNext()
                     obj.put("type", "逕舉");
                     obj.put("pltno", cursor.getString(0));
                     obj.put("carkind",cursor.getString(1));
@@ -143,14 +141,16 @@ public class Nupload extends AppCompatActivity {
                     obj.put("pname",cursor.getString(8));
                     obj.put("report_dt", "");
                     obj.put("report_no", "");
-                    obj.put("piccnt","");
+                    obj.put("piccnt",cursor.getString(14));
                     obj.put("picture", "");
                     obj.put("PathLift", "");
-                    obj.put("account","");
+                    obj.put("account",i);
                     obj.put("Album", album);
 
                     array.put(obj);
-                } while(cursor.moveToNext());    // 有一下筆就繼續迴圈
+                    cursor.moveToNext();
+                    i++;
+                }     // 有一下筆就繼續迴圈
 
                 txv_out.setText(array.toString());
 
@@ -158,6 +158,7 @@ public class Nupload extends AppCompatActivity {
                 values.put(ALBUM,album);
                 db.update(TABLE_NAME,values,BTNUPLOAD+"='n'",null);
                 dbb.close();
+                dbHelper.close();
 
             } catch (JSONException e) {
                 e.printStackTrace();
