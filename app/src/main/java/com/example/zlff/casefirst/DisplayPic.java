@@ -1,9 +1,11 @@
 package com.example.zlff.casefirst;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -16,6 +18,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -303,10 +306,28 @@ if (baos != null) {
 
          public void btn_click(View view){
         TextView txv=(TextView)findViewById(R.id.txv_output);
-        String bmp=bitmapToBase64(BitmapFactory.decodeFile(getPath(this,Uri_1)));
+        String bmp=bitmapToBase64(BitmapFactory.decodeFile(getPath(this,Uri_3)));
         txv.setText(bmp);
 
-        base64ToFile(bmp,getPath(this,Uri_1));
+             int permission = ActivityCompat.checkSelfPermission(DisplayPic.this,
+                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+             if (permission != PackageManager.PERMISSION_GRANTED) {
+                 // We don't have permission so prompt the user
+                 ActivityCompat.requestPermissions(DisplayPic.this,
+                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                         0);
+             }else{
+                 {
+                     //以獲取權限要做的事情
+                     //Intent replyIntent=new Intent();
+
+                     base64ToFile(bmp,getPath(this,Uri_1));
+
+
+                 }
+             }
+             img4.setImageBitmap(BitmapFactory.decodeFile(getPath(DisplayPic.this,Uri_1)));
 
 
 
