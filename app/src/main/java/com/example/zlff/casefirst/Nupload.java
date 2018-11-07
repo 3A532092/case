@@ -41,7 +41,7 @@ public class Nupload extends AppCompatActivity {
     private DBHelper dbHelper;
     private ListView list_nsave;
     private AlertDialog dialog;
-
+    JSONObject obj;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,27 +82,6 @@ public class Nupload extends AppCompatActivity {
         if(list_nsave.getCount()==0) {
             Toast.makeText(this, "無資料可上傳", Toast.LENGTH_LONG).show();
         }
-            /*try {
-                JSONObject inf = new JSONObject();
-
-                JSONArray array = new JSONArray();
-                JSONObject arr_ = new JSONObject();
-                arr_.put("name", "張三");
-                arr_.put("age","");
-                arr_.put("IdCard", "XC");
-                arr_.put("married", true);
-
-                arr_.put("name", "李四");
-                arr_.put("age","");
-                arr_.put("IdCard", "@DC");
-                arr_.put("married", true);
-                array.put( arr_);
-
-                inf.put("inf", array);
-                txv_out.setText(array.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }*/
         else {
 
             dialog=new AlertDialog.Builder(Nupload.this).create();
@@ -122,11 +101,11 @@ public class Nupload extends AppCompatActivity {
                             "select pltno,carkind,j_date,addr,splimit,speed,rule,truth,pname,album,j_time,whitelist,pic,btnupload,piccnt from "+TABLE_NAME+" where btnupload='n'",
                             new String[]{});
                     JSONArray array = new JSONArray();
-                    JSONObject obj = new JSONObject();
+
              try {
                 cursor.moveToFirst();
-                int i=0;
-                 while(!cursor.isAfterLast()){        // 逐筆讀出資料cursor.moveToNext()
+                 do{// 逐筆讀出資料
+                    obj = new JSONObject();
                     obj.put("type", "逕舉");
                     obj.put("pltno", cursor.getString(0));
                     obj.put("carkind",cursor.getString(1));
@@ -144,13 +123,11 @@ public class Nupload extends AppCompatActivity {
                     obj.put("piccnt",cursor.getString(14));
                     obj.put("picture", "");
                     obj.put("PathLift", "");
-                    obj.put("account",i);
+                    obj.put("account","");
                     obj.put("Album", album);
 
                     array.put(obj);
-                    cursor.moveToNext();
-                    i++;
-                }     // 有一下筆就繼續迴圈
+                }while(cursor.moveToNext());     // 有一下筆就繼續迴圈
 
                 txv_out.setText(array.toString());
 

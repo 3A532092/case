@@ -18,18 +18,26 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URI;
+import java.util.zip.GZIPOutputStream;
 
 public class DisplayPic extends AppCompatActivity {
     private final static int PHOTO = 99;
     private ImageView imageView, img2, img3, img4, img5, imgset;
-    String pic_1, pic_2, pic_3, pic_4, pic_5;
+    String pic_1, pic_2, pic_3, pic_4, pic_5,uploadBuffer;
     Uri Uri_1, Uri_2, Uri_3, Uri_4, Uri_5;
 
 
@@ -37,6 +45,22 @@ public class DisplayPic extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_pic);
+
+        /*try {
+            FileInputStream fis = new FileInputStream(getPath(this,Uri_1));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int count = 0;
+            while((count = fis.read(buffer)) >= 0){
+                baos.write(buffer, 0, count);
+            }
+            uploadBuffer = new String(Base64.encode(baos.toByteArray())); //進行Base64編碼得到字串
+        }catch (Exception e){
+
+
+        }*/
+
+
 
         imageView = (ImageView) findViewById(R.id.imageView);
         img2 = (ImageView) findViewById(R.id.imageView2);
@@ -178,16 +202,7 @@ public class DisplayPic extends AppCompatActivity {
         }
         return null;
     }
-    /**
-     * Get the value of the data column for this Uri. This is useful for
-     * MediaStore Uris, and other file-based ContentProviders.
-     *
-     * @param context The context.
-     * @param uri The Uri to query.
-     * @param selection (Optional) Filter used in the query.
-     * @param selectionArgs (Optional) Selection arguments used in the query.
-     * @return The value of the _data column, which is typically a file path.
-     */
+
     public static String getDataColumn(Context context, Uri uri, String selection,
                                        String[] selectionArgs) {
         Cursor cursor = null;
@@ -208,34 +223,94 @@ public class DisplayPic extends AppCompatActivity {
         }
         return null;
     }
-    /**
-     * @param uri The Uri to check.
-     * @return Whether the Uri authority is ExternalStorageProvider.
-     */
+
     public static boolean isExternalStorageDocument(Uri uri) {
         return "com.android.externalstorage.documents".equals(uri.getAuthority());
     }
-    /**
-     * @param uri The Uri to check.
-     * @return Whether the Uri authority is DownloadsProvider.
-     */
+
     public static boolean isDownloadsDocument(Uri uri) {
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
-    /**
-     * @param uri The Uri to check.
-     * @return Whether the Uri authority is MediaProvider.
-     */
+
     public static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
-    /**
-     * @param uri The Uri to check.
-     * @return Whether the Uri authority is Google Photos.
-     */
+
     public static boolean isGooglePhotosUri(Uri uri) {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
+
+    public static String bitmapToBase64(Bitmap bitmap) {
+
+  String result = null;
+  ByteArrayOutputStream baos = null;
+  try {
+   if (bitmap != null) {
+     baos = new ByteArrayOutputStream();
+     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+     baos.flush();
+     baos.close();
+
+   byte[] bitmapBytes = baos.toByteArray();
+    result = Base64.encodeToString(bitmapBytes, Base64.DEFAULT);
+   }
+  } catch (IOException e) {
+   e.printStackTrace();
+  } finally {
+  try {
+if (baos != null) {
+ baos.flush();
+ baos.close();
+ }
+  } catch (IOException e) {
+   e.printStackTrace();
+  }
+  }
+  return result;
+ }
+
+
+    public static boolean base64ToFile(String base64Str,String path){
+        byte[] data = Base64.decode(base64Str,Base64.DEFAULT);
+        for (int i = 0; i < data.length; i++) {
+            if(data[i] < 0){
+                //调整异常数据
+                data[i] += 256;
+            }
+        }
+        OutputStream os = null;
+        try {
+            os = new FileOutputStream(path);
+            os.write(data);
+            os.flush();
+            os.close();
+            return true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }catch (IOException e){
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+
+
+
+
+
+         public void btn_click(View view){
+        TextView txv=(TextView)findViewById(R.id.txv_output);
+        String bmp=bitmapToBase64(BitmapFactory.decodeFile(getPath(this,Uri_1)));
+        txv.setText(bmp);
+
+        base64ToFile(bmp,getPath(this,Uri_1));
+
+
+
+         }
 
 
 }
