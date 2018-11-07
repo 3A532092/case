@@ -115,7 +115,7 @@ public class AddressGPSActivity extends AppCompatActivity implements GoogleApiCl
     View.OnClickListener btnok_onClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(edt_addr.getText().toString() == ""){
+            if(edt_addr.getText().toString().equals("")){
                 Toast.makeText(AddressGPSActivity.this, "請輸入地址", Toast.LENGTH_LONG).show();
             }else {
             dialog=new AlertDialog.Builder(AddressGPSActivity.this).create();

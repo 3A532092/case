@@ -243,91 +243,12 @@ public class DisplayPic extends AppCompatActivity {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
 
-    public static String bitmapToBase64(Bitmap bitmap) {
-
-  String result = null;
-  ByteArrayOutputStream baos = null;
-  try {
-   if (bitmap != null) {
-     baos = new ByteArrayOutputStream();
-     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-
-     baos.flush();
-     baos.close();
-
-   byte[] bitmapBytes = baos.toByteArray();
-    result = Base64.encodeToString(bitmapBytes, Base64.DEFAULT);
-   }
-  } catch (IOException e) {
-   e.printStackTrace();
-  } finally {
-  try {
-if (baos != null) {
- baos.flush();
- baos.close();
- }
-  } catch (IOException e) {
-   e.printStackTrace();
-  }
-  }
-  return result;
- }
-
-
-    public static boolean base64ToFile(String base64Str,String path){
-        byte[] data = Base64.decode(base64Str,Base64.DEFAULT);
-        for (int i = 0; i < data.length; i++) {
-            if(data[i] < 0){
-                //调整异常数据
-                data[i] += 256;
-            }
-        }
-        OutputStream os = null;
-        try {
-            os = new FileOutputStream(path);
-            os.write(data);
-            os.flush();
-            os.close();
-            return true;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        }catch (IOException e){
-            e.printStackTrace();
-            return false;
-        }
-
-    }
-
-
-
 
 
 
          public void btn_click(View view){
         TextView txv=(TextView)findViewById(R.id.txv_output);
-        String bmp=bitmapToBase64(BitmapFactory.decodeFile(getPath(this,Uri_3)));
-        txv.setText(getPath(this,Uri_1));
-
-
-        //base64轉File但是只能覆蓋圖片
-             /*int permission = ActivityCompat.checkSelfPermission(DisplayPic.this,
-                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-             if (permission != PackageManager.PERMISSION_GRANTED) {
-                 // We don't have permission so prompt the user
-                 ActivityCompat.requestPermissions(DisplayPic.this,
-                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                         0);
-             }else{
-                 {
-                     //以獲取權限要做的事情
-                     //Intent replyIntent=new Intent();
-                     base64ToFile(bmp,getPath(DisplayPic.this,Uri_2));
-                 }
-             }
-             img4.setImageBitmap(BitmapFactory.decodeFile(getPath(DisplayPic.this,Uri_1)));*/
-
+        //String bmp=bitmapToBase64(BitmapFactory.decodeFile(getPath(this,Uri_3)));
 
 
          }
