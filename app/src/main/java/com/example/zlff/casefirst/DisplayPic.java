@@ -307,9 +307,11 @@ if (baos != null) {
          public void btn_click(View view){
         TextView txv=(TextView)findViewById(R.id.txv_output);
         String bmp=bitmapToBase64(BitmapFactory.decodeFile(getPath(this,Uri_3)));
-        txv.setText(bmp);
+        txv.setText(getPath(this,Uri_1));
 
-             int permission = ActivityCompat.checkSelfPermission(DisplayPic.this,
+
+        //base64轉File但是只能覆蓋圖片
+             /*int permission = ActivityCompat.checkSelfPermission(DisplayPic.this,
                      android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
              if (permission != PackageManager.PERMISSION_GRANTED) {
@@ -321,13 +323,10 @@ if (baos != null) {
                  {
                      //以獲取權限要做的事情
                      //Intent replyIntent=new Intent();
-
-                     base64ToFile(bmp,getPath(this,Uri_1));
-
-
+                     base64ToFile(bmp,getPath(DisplayPic.this,Uri_2));
                  }
              }
-             img4.setImageBitmap(BitmapFactory.decodeFile(getPath(DisplayPic.this,Uri_1)));
+             img4.setImageBitmap(BitmapFactory.decodeFile(getPath(DisplayPic.this,Uri_1)));*/
 
 
 
