@@ -28,7 +28,8 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'net.gotev:uploadservice:2.1'
     implementation 'com.android.support:multidex:1.0.3'
-    implementation ('com.google.android.gms:play-services:9.8.0') {
+    implementation 'com.android.support:percent:26.1.0'
+    implementation('com.google.android.gms:play-services:9.8.0') {
         exclude group: 'com.android.support'
         exclude module: 'appcompat-v7'
         exclude module: 'support-v4'
@@ -38,4 +39,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.contrarywind:Android-PickerView:3.2.7'
     implementation files('libs/GenAsync.jar')
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
 }

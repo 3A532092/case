@@ -60,15 +60,6 @@
                 android:value=".Home" />
         </activity>
         <activity
-            android:name=".CameraActivity"
-            android:parentActivityName=".MainActivity">
-
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Home" />
-        </activity>
-        <activity
             android:name=".Nupload"
             android:parentActivityName=".YNuploaded">
 
@@ -102,25 +93,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".DisplayPhotoPage"
-            android:parentActivityName=".Record_modify">
 
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Home" />
-        </activity>
-        <activity
-            android:name=".GPSinf_Activity"
-            android:parentActivityName=".Record_modify" />
-        <activity android:name=".Displayaddress" />
         <activity android:name=".Picture_Activity">
 
             <!-- <action android:name="android.media.action.STILL_IMAGE_CAMERA" /> -->
         </activity>
         <activity android:name=".DisplayPic" />
-        <activity android:name=".AddressGPSActivity"></activity>
+        <activity android:name=".AddressGPSActivity" />
+        <activity android:name=".Rulelist"></activity>
     </application>
 
 </manifest>

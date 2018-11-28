@@ -155,6 +155,7 @@
     <orderEntry type="library" name="Gradle: com.google.firebase:firebase-storage-9.8.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.firebase:firebase-storage-common-9.8.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-awareness-9.8.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:recyclerview-v7-26.1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: javax.inject:javax.inject:1@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-maps-9.8.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-nearby-9.8.0" level="project" />
@@ -212,6 +213,7 @@
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-basement-9.8.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-tasks-9.8.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-gass-9.8.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:percent-26.1.0" level="project" />
     <orderEntry type="library" name="Gradle: com.contrarywind:Android-PickerView-3.2.7" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.lifecycle:runtime-1.0.0" level="project" />
   </component>

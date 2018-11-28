@@ -57,9 +57,10 @@ public class MainActivity extends AppCompatActivity{
     private EditText editPname,editwhitelist,editPltno,editCarkind1,editCarkind2,editRule,editTruth,editSplimit,editSpeed;
     private TextView txtdate,txv_date;
     private Button btn_tocameraAc,btn_toGPS,btn_carkind,btn_rule;
-    private AlertDialog dialog,dialog_rule,dialog_carkind;
+    private AlertDialog dialog,dialog_carkind;
     private static final int SET_PHOTOSAVE=1;
     private static final int SET_ADDRESS=2;
+    private static final int SET_RULE=3;
     String[] option={"1 汽車","2 拖車","3 重機","4 輕機","5 機械牌(機械)","6 臨時牌(臨)","7 試車牌(試)","1a 軍車牌(軍)","1b 領事牌(領)", "1c 外交牌(外)","1d 外交牌(使)"};
     String[] rules;
     String year, month, day, hour, minute,sec;
@@ -109,12 +110,6 @@ public class MainActivity extends AppCompatActivity{
         builder.setNegativeButton("取消",null);
         dialog_carkind=builder.create();
 
-        //btn_rule對話方塊
-        AlertDialog.Builder builder2=new AlertDialog.Builder(this);
-        builder2.setTitle("選擇法條");
-        builder2.setItems(R.array.rule_array,listener_rule);
-        builder2.setNegativeButton("取消",null);
-        dialog_rule=builder2.create();
 
 
 
@@ -143,14 +138,14 @@ public class MainActivity extends AppCompatActivity{
         }
     };
 
-    DialogInterface.OnClickListener listener_rule=new DialogInterface.OnClickListener() {
+   /* DialogInterface.OnClickListener listener_rule=new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
 
             editRule.setText(rules[i].split(" ")[0]);
             editTruth.setText(rules[i].split(" ")[1]);
         }
-    };
+    };*/
 
     public  void btn_carkind(View view){
 
@@ -158,42 +153,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public  void btn_rule(View view){
-       //dialog_rule.show();
-
-        /*LayoutInflater factory=LayoutInflater.from(MainActivity.this);
-        View view2=factory.inflate(R.layout.activity_home , null);
-        AlertDialog dialog02=new AlertDialog.Builder(MainActivity.this)
-        .setIcon(android.R.drawable.btn_star)
-        .setTitle("登录")
-        .setView(view2)
-        .setPositiveButton("Yes",null)
-        .setNegativeButton("No",null).create();
-        dialog02.show();*/
-        AlertDialog.Builder editDialog = new AlertDialog.Builder(MainActivity.this);
-        editDialog.setTitle("--- Edit ---");
-
-        final EditText editText = new EditText(MainActivity.this);
-
-        editText.setText("2");
-        editDialog.setView(editText);
-
-
-        editDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            // do something when the button is clicked
-            public void onClick(DialogInterface arg0, int arg1) {
-
-            }
-        });
-        editDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            // do something when the button is clicked
-            public void onClick(DialogInterface arg0, int arg1) {
-                //...
-            }
-        });
-        editDialog.show();
-
-
-
+        startActivityForResult(new Intent(MainActivity.this,Rulelist.class),SET_RULE);
     }
 
 
@@ -425,6 +385,14 @@ public class MainActivity extends AppCompatActivity{
                 if(resultCode == RESULT_OK){
                     Button btngps=(Button)findViewById(R.id.btn_gps);
                     btngps.setText("定位資訊(已儲存)");
+                }
+                break;
+            case SET_RULE:
+                if(resultCode == RESULT_OK){
+                    Bundle bundle=data.getExtras();
+                    editRule.setText(bundle.getString("Rule").split(" ")[0]);
+                    editTruth.setText(bundle.getString("Rule").split(" ")[1]);
+
                 }
                 break;
         }

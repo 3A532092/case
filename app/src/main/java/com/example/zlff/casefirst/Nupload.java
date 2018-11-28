@@ -27,7 +27,11 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kosalgeek.asynctask.AsyncResponse;
 import com.kosalgeek.asynctask.PostResponseAsyncTask;
+
+import net.gotev.uploadservice.MultipartUploadRequest;
+import net.gotev.uploadservice.UploadNotificationConfig;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +44,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.UUID;
 
 import static android.provider.BaseColumns._ID;
 import static com.example.zlff.casefirst.DbConstants.ALBUM;
@@ -54,7 +59,7 @@ import static com.example.zlff.casefirst.DbConstants.TRUTH;
 import static com.example.zlff.casefirst.DbConstants.USERNAME;
 import static com.example.zlff.casefirst.DbConstants.WHITELIST;
 
-public class Nupload extends AppCompatActivity {
+public class Nupload extends AppCompatActivity implements AsyncResponse {
     private DBHelper dbHelper;
     private ListView list_nsave;
     private AlertDialog dialog;
@@ -106,92 +111,104 @@ public class Nupload extends AppCompatActivity {
         if(list_nsave.getCount()==0) {
             Toast.makeText(this, "無資料可上傳", Toast.LENGTH_LONG).show();
 
+
         }
         else {
 
             dialog=new AlertDialog.Builder(Nupload.this).create();
             dialog.setTitle("請選擇");
             dialog.setMessage("是否上傳?");
-            dialog.setButton("確認", new DialogInterface.OnClickListener(){
+            dialog.setButton("確認", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
-                    SQLiteDatabase db=dbHelper.getWritableDatabase();
-                    ContentValues values=new ContentValues();
-                    String album=ran();
-                    TextView txv_out=(TextView)findViewById(R.id.textView15);
+                    SQLiteDatabase db = dbHelper.getWritableDatabase();
+                    ContentValues values = new ContentValues();
+                    String album = ran();
+                    TextView txv_out = (TextView) findViewById(R.id.textView15);
 
 
                     SQLiteDatabase dbb = dbHelper.getReadableDatabase();
                     Cursor cursor = dbb.rawQuery(
-                            "select pltno,carkind,j_date,addr,splimit,speed,rule,truth,pname,album,j_time,whitelist,pic,btnupload,piccnt,pic_1,pic_2,pic_3,pic_4,pic_5 from "+TABLE_NAME+" where btnupload='n'",
+                            "select pltno,carkind,j_date,addr,splimit,speed,rule,truth,pname,album,j_time,whitelist,pic,btnupload,piccnt,pic_1,pic_2,pic_3,pic_4,pic_5 from " + TABLE_NAME + " where btnupload='n'",
                             new String[]{});
                     JSONArray array = new JSONArray();
 
-             try {
-                cursor.moveToFirst();
-                 do{// 逐筆讀出資料
-                     String pic_1, pic_2, pic_3, pic_4, pic_5;
-                     Uri Uri_1, Uri_2, Uri_3, Uri_4, Uri_5;
-                     pic_1=cursor.getString(15);
-                     pic_2=cursor.getString(16);
-                     pic_3=cursor.getString(17);
-                     pic_4=cursor.getString(18);
-                     pic_5= cursor.getString(19);
+                    try {
+                        cursor.moveToFirst();
+                        do {// 逐筆讀出資料
+                            String pic_1, pic_2, pic_3, pic_4, pic_5;
+                            Uri Uri_1, Uri_2, Uri_3, Uri_4, Uri_5;
+                            pic_1 = cursor.getString(15);
+                            pic_2 = cursor.getString(16);
+                            pic_3 = cursor.getString(17);
+                            pic_4 = cursor.getString(18);
+                            pic_5 = cursor.getString(19);
 
-                     Uri_1 = Uri.parse(pic_1);
-                     Uri_2 = Uri.parse(pic_2);
-                     Uri_3 = Uri.parse(pic_3);
-                     Uri_4 = Uri.parse(pic_4);
-                     Uri_5 = Uri.parse(pic_5);
+                            Uri_1 = Uri.parse(pic_1);
+                            Uri_2 = Uri.parse(pic_2);
+                            Uri_3 = Uri.parse(pic_3);
+                            Uri_4 = Uri.parse(pic_4);
+                            Uri_5 = Uri.parse(pic_5);
 
-                     String bmp=bitmapToBase64(BitmapFactory.decodeFile(getPath(Nupload.this,Uri_1))),
-                            bmp2=bitmapToBase64(BitmapFactory.decodeFile(getPath(Nupload.this,Uri_2))),
-                            bmp3=bitmapToBase64(BitmapFactory.decodeFile(getPath(Nupload.this,Uri_3))),
-                            bmp4=bitmapToBase64(BitmapFactory.decodeFile(getPath(Nupload.this,Uri_4))),
-                            bmp5=bitmapToBase64(BitmapFactory.decodeFile(getPath(Nupload.this,Uri_5)));
-                     //base64编码中的"+"会被替换成空格，可把+replace("+","%2B")
+                            String bmp = bitmapToBase64(BitmapFactory.decodeFile(getPath(Nupload.this, Uri_1))),
+                                    bmp2 = bitmapToBase64(BitmapFactory.decodeFile(getPath(Nupload.this, Uri_2))),
+                                    bmp3 = bitmapToBase64(BitmapFactory.decodeFile(getPath(Nupload.this, Uri_3))),
+                                    bmp4 = bitmapToBase64(BitmapFactory.decodeFile(getPath(Nupload.this, Uri_4))),
+                                    bmp5 = bitmapToBase64(BitmapFactory.decodeFile(getPath(Nupload.this, Uri_5)));
+                            //base64编码中的"+"会被替换成空格，可把+replace("+","%2B")
 
-                    obj = new JSONObject();
-                    obj.put("type", "逕舉");
-                    obj.put("pltno", cursor.getString(0));
-                    obj.put("carkind",cursor.getString(1));
-                    obj.put("vil_dt", cursor.getString(2));
-                    obj.put("vil_tm", cursor.getString(10));
-                    obj.put("vil_addr",cursor.getString(3));
-                    obj.put("splimit", cursor.getString(4));
-                    obj.put("speed", cursor.getString(5));
-                    obj.put("rule1",cursor.getString(6));
-                    obj.put("truth1", cursor.getString(7));
-                    obj.put("unit", "0000");
-                    obj.put("pname",cursor.getString(8));
-                    obj.put("report_dt", "");
-                    obj.put("report_no", "");
-                    obj.put("piccnt",cursor.getString(14));
-                    obj.put("picture", "");
-                    obj.put("PathLift", "");
-                    obj.put("account","");
-                    obj.put("Album", album);
-                    obj.put("pic_1",bmp);
-                    obj.put("pic_2", bmp2);
-                    obj.put("pic_3", bmp3);
-                    obj.put("pic_4", bmp4);
-                    obj.put("pic_5", bmp5);
+                            obj = new JSONObject();
+                            obj.put("type", "逕舉");
+                            obj.put("pltno", cursor.getString(0));
+                            obj.put("carkind", cursor.getString(1));
+                            obj.put("vil_dt", cursor.getString(2));
+                            obj.put("vil_tm", cursor.getString(10));
+                            obj.put("vil_addr", cursor.getString(3));
+                            obj.put("splimit", cursor.getString(4));
+                            obj.put("speed", cursor.getString(5));
+                            obj.put("rule1", cursor.getString(6));
+                            obj.put("truth1", cursor.getString(7));
+                            obj.put("unit", "0000");
+                            obj.put("pname", cursor.getString(8));
+                            obj.put("report_dt", "");
+                            obj.put("report_no", "");
+                            obj.put("piccnt", cursor.getString(14));
+                            obj.put("picture", "");
+                            obj.put("PathLift", "");
+                            obj.put("account", "");
+                            obj.put("Album", album);
+                            obj.put("pic_1", bmp);
+                            obj.put("pic_2", bmp2);
+                            obj.put("pic_3", bmp3);
+                            obj.put("pic_4", bmp4);
+                            obj.put("pic_5", bmp5);
 
-                    array.put(obj);
-                }while(cursor.moveToNext());     // 有一下筆就繼續迴圈
+                            array.put(obj);
+                        } while (cursor.moveToNext());     // 有一下筆就繼續迴圈
 
-                txv_out.setText(array.toString());
+                        //txv_out.setText(array.toString());
 
-                values.put(BTNUPLOAD,"y");
-                values.put(ALBUM,album);
-                db.update(TABLE_NAME,values,BTNUPLOAD+"='n'",null);
-                dbb.close();
-                dbHelper.close();
+                        values.put(BTNUPLOAD, "y");
+                        values.put(ALBUM, album);
+                        db.update(TABLE_NAME, values, BTNUPLOAD + "='n'", null);
+                        dbb.close();
+                        dbHelper.close();
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+                        HashMap postData = new HashMap();
+                        postData.put("req", array.toString());
+
+                        //startActivity(new Intent(this,Home.class));
+                        PostResponseAsyncTask task  = new PostResponseAsyncTask(Nupload.this,postData);
+                        task.execute("http://10.0.2.2/Myfirstserve/getandroid.php");
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+
 
                 setResult(RESULT_OK);
                 //finish();
@@ -419,6 +436,16 @@ public class Nupload extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         showInList();
+    }
+
+    @Override
+    public void processFinish(String result) {
+        if(result.equals("success")){
+            Toast.makeText(this,"yaaa",Toast.LENGTH_LONG).show();
+        }
+        else{
+            Toast.makeText(this,"帳號或密碼錯誤",Toast.LENGTH_LONG).show();
+        }
     }
 
 
