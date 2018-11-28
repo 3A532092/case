@@ -21,21 +21,8 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.URI;
-import java.util.zip.GZIPOutputStream;
 
 public class DisplayPic extends AppCompatActivity {
     private final static int PHOTO = 99;
@@ -48,21 +35,6 @@ public class DisplayPic extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_pic);
-
-        /*try {
-            FileInputStream fis = new FileInputStream(getPath(this,Uri_1));
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
-            int count = 0;
-            while((count = fis.read(buffer)) >= 0){
-                baos.write(buffer, 0, count);
-            }
-            uploadBuffer = new String(Base64.encode(baos.toByteArray())); //進行Base64編碼得到字串
-        }catch (Exception e){
-
-
-        }*/
-
 
 
         imageView = (ImageView) findViewById(R.id.imageView);
@@ -243,15 +215,6 @@ public class DisplayPic extends AppCompatActivity {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
 
-
-
-
-         public void btn_click(View view){
-        TextView txv=(TextView)findViewById(R.id.txv_output);
-        //String bmp=bitmapToBase64(BitmapFactory.decodeFile(getPath(this,Uri_3)));
-
-
-         }
 
 
 }
