@@ -282,8 +282,8 @@ public class MainActivity extends AppCompatActivity{
         editwhitelist.setText("");
         editPltno.setText("");
         editRule.setText("");
-        editSpeed.setText("0");
-        editSplimit.setText("0");
+        editSpeed.setText("");
+        editSplimit.setText("");
         editTruth.setText("");
         btn_tocameraAc.setText("照相機(未儲存)");
         btn_toGPS.setText("定位資訊(未儲存)");

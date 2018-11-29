@@ -18,24 +18,35 @@ import android.widget.TextView;
 import static com.example.zlff.casefirst.DbConstants.CARKIND;
 import static com.example.zlff.casefirst.DbConstants.DATE;
 import static com.example.zlff.casefirst.DbConstants.NUM;
+import static com.example.zlff.casefirst.DbConstants.PLTNO;
 import static com.example.zlff.casefirst.DbConstants.REMARKS;
+import static com.example.zlff.casefirst.DbConstants.RULE;
 import static com.example.zlff.casefirst.DbConstants.TABLE_NAME;
 
+import java.io.IOException;
 import java.util.Calendar;
 
 import static android.provider.BaseColumns._ID;
 
 public class Home extends AppCompatActivity {
     int year, month, day, hour, minute,sec;
-    String thisDate;
-    private TextView result;
-    private EditText edtdel;
+    private DBHelper dbHelper;
+    String getdatemon,getyear;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        dbHelper=new DBHelper(this);
+
+        //刪除超過三個月的資料
+        try {
+            delet();
+
+        }catch (Exception e){
+        }
     }
 
 
@@ -43,6 +54,7 @@ public class Home extends AppCompatActivity {
         Intent recordintent=new Intent();
         recordintent.setClass(this,YNuploaded.class);
         startActivity(recordintent);
+
     }
 
     public void btn_signout_Click(View view){
@@ -54,13 +66,38 @@ public class Home extends AppCompatActivity {
 
     }
 
-        public void btn_writein_Click (View view){
+    public void btn_writein_Click (View view){
 
             Intent timeintent = new Intent();
             timeintent.setClass(this, MainActivity.class);
 
             startActivity(timeintent);
+    }
+
+    private void delet(){
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Calendar mCal = Calendar.getInstance();
+        int now_mon=mCal.get(Calendar.MONTH) + 1;
+        int now_year=mCal.get(Calendar.YEAR) - 1911;
+
+
+        Cursor cursor = db.rawQuery(
+                "select pltno,date,_ID from "+TABLE_NAME, new String[]{});
+        while (cursor.moveToNext()) {
+            String getpltno = cursor.getString(0);
+            String getdate = cursor.getString(1);
+            String getid = cursor.getString(2);
+            getdatemon=getdate.substring(getdate.indexOf("年")+1,getdate.indexOf("月"));
+            getyear=getdate.substring(0,getdate.indexOf("年"));
+
+            now_mon=now_mon+12*(now_year-Integer.parseInt(getyear));
+
+            if(now_mon-Integer.parseInt(getdatemon)>3){
+                db.delete(TABLE_NAME, _ID + "=" +getid+" and "+DATE+"='"+getdate+"'", null);
+            }
+
         }
+    }
 
 
 }
