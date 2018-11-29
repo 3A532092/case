@@ -33,11 +33,12 @@ public class LoginAvtivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        HashMap postData = new HashMap();
-        postData.put("btnLogin", "Login");
-        postData.put("mobile", "android");
-        postData.put("txtUsername", edtUsername.getText().toString());
-        postData.put("txtPassword", edtPassword.getText().toString() );
+        //紀錄username供顯示不同使用者顯示上傳狀態
+        /*SharedPreferences pref = getSharedPreferences("00", MODE_PRIVATE);
+        pref.edit()
+                .putString("username",edtUsername.getText().toString())
+                .commit();*/
+
         startActivity(new Intent(this,Home.class));
 
 

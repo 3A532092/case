@@ -199,8 +199,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="number"
-            android:maxLength="3"
-            android:text="0" />
+            android:maxLength="3" />
 
         <TextView
             android:id="@+id/textView12"
@@ -215,8 +214,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="number"
-            android:maxLength="3"
-            android:text="0" />
+            android:maxLength="3" />
     </LinearLayout>
 
     <TextView

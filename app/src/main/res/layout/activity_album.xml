@@ -6,9 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".Album">
 
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="已上傳冊"
+        app:layout_marginLeftPercent="41%" />
+
     <ListView
         android:id="@+id/list_Albumsave"
         app:layout_widthPercent="100%"
+        app:layout_marginTopPercent="4%"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

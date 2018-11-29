@@ -211,9 +211,31 @@ public class MainActivity extends AppCompatActivity{
                 if(editPltno.length()<=5 || editPltno.getText().toString().indexOf('-') == -1 || editPltno.getText().toString().indexOf('-',editPltno.getText().toString().indexOf('-')+1) != -1 || place ==0 ||place ==1 || place ==5 || place ==6 || place ==7){
                     Toast.makeText(this, "車牌格式錯誤", Toast.LENGTH_LONG).show();
                 }
+                else if(editCarkind1.getText().toString().equals("")){
+                    Toast.makeText(this, "未輸入車種", Toast.LENGTH_LONG).show();
+                }
+                else if(editPname.getText().toString().equals("")){
+                    Toast.makeText(this, "未輸入舉發警員", Toast.LENGTH_LONG).show();
+                }
+                else if(editSpeed.getText().toString().equals("") ){
+                    Toast.makeText(this, "未輸入車速", Toast.LENGTH_LONG).show();
+                }
+                else if(editSplimit.getText().toString().equals("")){
+                    Toast.makeText(this, "未輸入速限", Toast.LENGTH_LONG).show();
+                }
                 else if(Integer.parseInt(editSpeed.getText().toString())<Integer.parseInt(editSplimit.getText().toString())){
                     Toast.makeText(this, "速限或車速格式錯誤", Toast.LENGTH_LONG).show();
                 }
+                else if(editRule.getText().toString().equals("")){
+                    Toast.makeText(this, "未輸入違規法條", Toast.LENGTH_LONG).show();
+                }
+                else if(btn_tocameraAc.getText().toString().equals("照相機(未儲存)")){
+                    Toast.makeText(this, "未選擇相片", Toast.LENGTH_LONG).show();
+                }
+                else if(btn_toGPS.getText().toString().equals("定位資訊(未儲存)")){
+                    Toast.makeText(this, "未輸入定位資訊", Toast.LENGTH_LONG).show();
+                }
+
                 else {
                     dialog=new AlertDialog.Builder(MainActivity.this).create();
                     dialog.setTitle("請選擇");

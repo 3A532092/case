@@ -206,10 +206,6 @@ public class Nupload extends AppCompatActivity implements AsyncResponse {
                         e.printStackTrace();
                     }
 
-
-
-
-
                 setResult(RESULT_OK);
                 //finish();
 
@@ -311,7 +307,7 @@ public class Nupload extends AppCompatActivity implements AsyncResponse {
     }
 
 
-    public static boolean base64ToFile(String base64Str,String path){
+    /*public static boolean base64ToFile(String base64Str,String path){
         byte[] data = Base64.decode(base64Str,Base64.DEFAULT);
         for (int i = 0; i < data.length; i++) {
             if(data[i] < 0){
@@ -334,7 +330,7 @@ public class Nupload extends AppCompatActivity implements AsyncResponse {
             return false;
         }
 
-    }
+    }*/
 
     @SuppressLint("NewApi")
     public static String getPath(final Context context, final Uri uri) {
