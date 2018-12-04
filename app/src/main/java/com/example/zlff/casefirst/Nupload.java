@@ -187,7 +187,6 @@ public class Nupload extends AppCompatActivity implements AsyncResponse {
                             array.put(obj);
                         } while (cursor.moveToNext());     // 有一下筆就繼續迴圈
 
-                        //txv_out.setText(array.toString());
 
                         values.put(BTNUPLOAD, "y");
                         values.put(ALBUM, album);
@@ -198,7 +197,7 @@ public class Nupload extends AppCompatActivity implements AsyncResponse {
                         HashMap postData = new HashMap();
                         postData.put("req", array.toString());
 
-                        //startActivity(new Intent(this,Home.class));
+                        startActivity(new Intent(Nupload.this,Home.class));
                         PostResponseAsyncTask task  = new PostResponseAsyncTask(Nupload.this,postData);
                         task.execute("http://10.0.2.2/Myfirstserve/getandroid.php");
 
@@ -428,11 +427,6 @@ public class Nupload extends AppCompatActivity implements AsyncResponse {
 
 
 
-    @Override       //这里是实现了自动更新
-    protected void onResume() {
-        super.onResume();
-        showInList();
-    }
 
     @Override
     public void processFinish(String result) {

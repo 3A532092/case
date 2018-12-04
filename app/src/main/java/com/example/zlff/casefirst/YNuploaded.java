@@ -13,8 +13,7 @@ import java.util.Random;
 
 public class YNuploaded extends AppCompatActivity {
     Button btn_Yup,btn_Nup;
-    TextView txt_aa;
-    int year, month, day, hour, minute,sec;
+    int year, month, day, hour;
     String thisDate;
     private static final int SET_UPLOAD=1;
 
@@ -24,7 +23,6 @@ public class YNuploaded extends AppCompatActivity {
         setContentView(R.layout.activity_ynuploaded);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        txt_aa=(TextView)findViewById(R.id.textView14);
 
     }
 

@@ -29,9 +29,8 @@ import java.util.Calendar;
 import static android.provider.BaseColumns._ID;
 
 public class Home extends AppCompatActivity {
-    int year, month, day, hour, minute,sec;
+    int year, month, day, hour;
     private DBHelper dbHelper;
-    String getdatemon,getyear;
 
 
     @Override
@@ -77,22 +76,23 @@ public class Home extends AppCompatActivity {
     private void delet(){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Calendar mCal = Calendar.getInstance();
-        int now_mon=mCal.get(Calendar.MONTH) + 1;
+        int now_day=mCal.get(Calendar.DAY_OF_MONTH);
         int now_year=mCal.get(Calendar.YEAR) - 1911;
 
 
         Cursor cursor = db.rawQuery(
                 "select pltno,date,_ID from "+TABLE_NAME, new String[]{});
         while (cursor.moveToNext()) {
-            String getpltno = cursor.getString(0);
             String getdate = cursor.getString(1);
             String getid = cursor.getString(2);
-            getdatemon=getdate.substring(getdate.indexOf("年")+1,getdate.indexOf("月"));
-            getyear=getdate.substring(0,getdate.indexOf("年"));
+            String getdatemon=getdate.substring(getdate.indexOf("年")+1,getdate.indexOf("月"));
+            String getdateday=getdate.substring(getdate.indexOf("月")+1,getdate.indexOf("日"));
+            String getyear=getdate.substring(0,getdate.indexOf("年"));
+            int now_mon=mCal.get(Calendar.MONTH) + 1;
 
             now_mon=now_mon+12*(now_year-Integer.parseInt(getyear));
 
-            if(now_mon-Integer.parseInt(getdatemon)>3){
+            if(now_mon-Integer.parseInt(getdatemon)>=3 && now_day>Integer.parseInt(getdateday)){
                 db.delete(TABLE_NAME, _ID + "=" +getid+" and "+DATE+"='"+getdate+"'", null);
             }
 
