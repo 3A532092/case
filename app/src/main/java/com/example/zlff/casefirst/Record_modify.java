@@ -45,6 +45,7 @@ import static com.example.zlff.casefirst.DbConstants.PLTNO;
 import static com.example.zlff.casefirst.DbConstants.PNAME;
 import static com.example.zlff.casefirst.DbConstants.REMARKS;
 import static com.example.zlff.casefirst.DbConstants.RULE;
+import static com.example.zlff.casefirst.DbConstants.SPEED;
 import static com.example.zlff.casefirst.DbConstants.SPLIMIT;
 import static com.example.zlff.casefirst.DbConstants.TABLE_NAME;
 import static com.example.zlff.casefirst.DbConstants.TRUTH;
@@ -178,8 +179,8 @@ public class Record_modify extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         delet();
-                        //startActivity(new Intent(Record_modify.this,Yupload.class));
-                        finish();
+                        startActivity(new Intent(Record_modify.this,Nupload.class));
+
                     }
                 });
                 dialog.setButton2("No", new DialogInterface.OnClickListener() {
@@ -272,6 +273,8 @@ public class Record_modify extends AppCompatActivity implements View.OnClickList
             String getrule = cursor.getString(3);
             dbb.delete(TABLE_NAME, _ID + "=" +getid+" and "+DATE+"='"+getdate+"' and "+PLTNO+"='"+getpltno+"' and "+RULE+"='"+getrule+"'", null);
         }
+        dbb.close();
+        cursor.close();
     }
 
     private void update(){
@@ -297,11 +300,13 @@ public class Record_modify extends AppCompatActivity implements View.OnClickList
         values.put(CARKIND,editCarkind1.getText().toString());
         values.put(TRUTH,editTruth.getText().toString());
         values.put(SPLIMIT,editSplimit.getText().toString());
-        values.put(SPLIMIT,editSpeed.getText().toString());
+        values.put(SPEED,editSpeed.getText().toString());
         values.put(DATE,txtdate.getText().toString());
         values.put(ADDR,edtaddress.getText().toString());
         db.update(TABLE_NAME,values,_ID + "=" +getid+" and "+DATE+"='"+getdate+"' and "+PLTNO+"='"+getpltno+"' and "+RULE+"='"+getrule+"'",null);
     }
+        dbb.close();
+        cursor.close();
     }
 
     private void displayNum(){

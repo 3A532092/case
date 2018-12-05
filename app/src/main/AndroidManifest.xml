@@ -98,7 +98,11 @@
 
             <!-- <action android:name="android.media.action.STILL_IMAGE_CAMERA" /> -->
         </activity>
-        <activity android:name=".DisplayPic" />
+        <activity android:name=".DisplayPic"
+            android:parentActivityName=".Record_modify">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".Home"/></activity>
         <activity android:name=".AddressGPSActivity" />
         <activity android:name=".Rulelist"></activity>
     </application>

@@ -59,6 +59,7 @@ public class Album extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        //cursor.close();
     }
 
     private Cursor getCursor() {

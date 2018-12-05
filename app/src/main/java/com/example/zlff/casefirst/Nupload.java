@@ -193,6 +193,7 @@ public class Nupload extends AppCompatActivity implements AsyncResponse {
                         db.update(TABLE_NAME, values, BTNUPLOAD + "='n'", null);
                         dbb.close();
                         dbHelper.close();
+                        cursor.close();
 
                         HashMap postData = new HashMap();
                         postData.put("req", array.toString());
@@ -432,9 +433,6 @@ public class Nupload extends AppCompatActivity implements AsyncResponse {
     public void processFinish(String result) {
         if(result.equals("success")){
             Toast.makeText(this,"yaaa",Toast.LENGTH_LONG).show();
-        }
-        else{
-            Toast.makeText(this,"帳號或密碼錯誤",Toast.LENGTH_LONG).show();
         }
     }
 

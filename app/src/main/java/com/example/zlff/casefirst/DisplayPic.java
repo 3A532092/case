@@ -36,7 +36,6 @@ public class DisplayPic extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_pic);
 
-
         imageView = (ImageView) findViewById(R.id.imageView);
         img2 = (ImageView) findViewById(R.id.imageView2);
         img3 = (ImageView) findViewById(R.id.imageView3);

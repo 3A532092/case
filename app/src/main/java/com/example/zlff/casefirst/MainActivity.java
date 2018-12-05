@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //home左上方返回鍵
+        //返回鍵
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         rules = getResources().getStringArray(R.array.rule_array);
@@ -94,9 +94,7 @@ public class MainActivity extends AppCompatActivity{
            }
        });
 
-
-
-        openDatabase();
+        dbHelper=new DBHelper(this);
         findViews();
         txv_date=(TextView) findViewById(R.id.txv_date);
         txv_date.setText(getdate(0));
@@ -176,10 +174,6 @@ public class MainActivity extends AppCompatActivity{
 
 
 
-    private void openDatabase(){
-        dbHelper=new DBHelper(this);   //取得DBHelper物件
-
-    }
     protected void onDestroy(){
         super.onDestroy();
         closeDatabase();     //關閉資料庫
@@ -347,18 +341,6 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
-    private void displayTime(){
-        String date;
-        Bundle bundle=this.getIntent().getExtras();
-        if(bundle != null){
-            //date=bundle.getString("Date");
-
-            TextView txv_date=(TextView) findViewById(R.id.txv_date);
-            txv_date.setText(getdate(0));
-        }
-
-    }
-
     private String getdate(int xx) {
         String newdate = "";
         String output="";
@@ -420,6 +402,4 @@ public class MainActivity extends AppCompatActivity{
         }
 
     }
-
-
 }

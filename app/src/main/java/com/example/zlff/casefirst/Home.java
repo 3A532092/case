@@ -97,6 +97,8 @@ public class Home extends AppCompatActivity {
             }
 
         }
+        db.close();
+        cursor.close();
     }
 
 
